@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PracticeOS — AI-Powered Practice Management for Financial Planners</title>
+  <meta name="description" content="PracticeOS helps Australian financial planners draft SOAs in a fraction of the time. Built for compliance, designed for efficiency." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0B1F3A;
+      --navy2: #122d50;
+      --gold: #C9A84C;
+      --gold-lt: #F5EDD6;
+      --gold-dk: #A8892E;
+      --white: #FFFFFF;
+      --mist: #F3F6FB;
+      --border: #DDE3EC;
+      --text: #1C2B3A;
+      --sub: #637488;
+      --blue: #1A56DB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(11,31,58,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.75rem; color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-wordmark span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy) !important;
+      font-weight: 700 !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+
+    .nav-cta:hover {
+      background: #d4b04a !important;
+      transform: translateY(-1px);
+      color: var(--navy) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -10%;
+      left: -5%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(26,86,219,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8rem 3rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    .hero-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.5rem;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-gold:hover {
+      background: #d4b04a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201,168,76,0.35);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .hero-proof {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .hero-proof-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .hero-proof-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .hero-proof-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+    }
+
+    .hero-proof-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* Hero right — app preview */
+    .hero-preview {
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-preview-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.1);
+    }
+
+    .preview-topbar {
+      background: rgba(255,255,255,0.06);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .preview-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .preview-url {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.3);
+      font-family: monospace;
+    }
+
+    .preview-body {
+      padding: 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .preview-sidebar {
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .preview-sidebar-item {
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .preview-sidebar-item.active {
+      background: rgba(26,86,219,0.25);
+      color: #93C5FD;
+      border-left: 2px solid #3B82F6;
+    }
+
+    .preview-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .preview-section-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .preview-line {
+      height: 7px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 4px;
+      margin-bottom: 0.4rem;
+    }
+
+    .preview-line.gold { background: rgba(201,168,76,0.25); width: 60%; }
+    .preview-line.w80 { width: 80%; }
+    .preview-line.w65 { width: 65%; }
+    .preview-line.w90 { width: 90%; }
+    .preview-line.w50 { width: 50%; }
+
+    .preview-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(74,222,128,0.15);
+      border: 1px solid rgba(74,222,128,0.25);
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.58rem;
+      color: #4ade80;
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+
+    /* ── SECTION SHARED ── */
+    .section {
+      padding: 6rem 3rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--sub);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── PROBLEM STRIP ── */
+    .problem-strip {
+      background: var(--mist);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 3rem;
+    }
+
+    .problem-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .problem-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .problem-text strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+
+    .problem-text p {
+      font-size: 0.8rem;
+      color: var(--sub);
+      line-height: 1.6;
+    }
+
+    /* ── MODULES ── */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .module-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    }
+
+    .module-card:hover {
+      box-shadow: 0 12px 40px rgba(11,31,58,0.1);
+      transform: translateY(-3px);
+      border-color: rgba(201,168,76,0.4);
+    }
+
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dk));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .module-card:hover::before { opacity: 1; }
+
+    .module-card.featured {
+      border-color: rgba(201,168,76,0.3);
+      background: linear-gradient(135deg, #FFFDF5 0%, var(--white) 100%);
+    }
+
+    .module-card.featured::before { opacity: 1; }
+
+    .module-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .module-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--gold-lt);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold-dk);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .module-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .module-desc {
+      font-size: 0.83rem;
+      color: var(--sub);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .module-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .module-features li {
+      font-size: 0.78rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .module-features li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── VIDEO ── */
+    .video-section {
+      background: var(--navy);
+      padding: 6rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .video-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .video-placeholder {
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-play {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .video-play:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 36px rgba(201,168,76,0.4);
+    }
+
+    .video-play svg {
+      margin-left: 4px;
+    }
+
+    .video-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .video-coming {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step-card {
+      position: relative;
+      padding: 2rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .step-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      color: rgba(201,168,76,0.15);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: var(--sub);
+      line-height: 1.65;
+    }
+
+    /* ── PRICING ── */
+    .pricing-section {
+      background: var(--mist);
+      border-top: 1px solid var(--border);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      max-width: 800px;
+    }
+
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 2.25rem;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(201,168,76,0.2), 0 20px 50px rgba(11,31,58,0.08);
+    }
+
+    .pricing-featured-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.25rem 1rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .pricing-tier {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--sub);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .pricing-currency {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 0.3rem;
+    }
+
+    .pricing-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.75rem;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .pricing-period {
+      font-size: 0.8rem;
+      color: var(--sub);
+    }
+
+    .pricing-note {
+      font-size: 0.74rem;
+      color: var(--sub);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .pricing-features li {
+      font-size: 0.82rem;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.5;
+    }
+
+    .pricing-check {
+      color: #16A34A;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pricing-soon {
+      display: inline-block;
+      background: var(--gold-lt);
+      color: var(--gold-dk);
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      margin-left: 0.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .pricing-beta-note {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.78rem;
+      color: var(--gold-dk);
+      line-height: 1.6;
+      margin-top: 1rem;
+      max-width: 800px;
+    }
+
+    /* ── CTA BLOCK ── */
+    .cta-section {
+      background: var(--navy);
+      padding: 7rem 3rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .cta-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.75rem;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .cta-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-footnote {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070F1E;
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .footer-brand span { color: var(--gold); }
+
+    .footer-right {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .footer-right a {
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+    }
+
+    .footer-right a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; }
+      .hero-preview { display: none; }
+      .hero-h1 { font-size: 2.5rem; }
+      .problem-inner { grid-template-columns: 1fr; gap: 1.25rem; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .section { padding: 4rem 1.5rem; }
+      .section-h2 { font-size: 1.9rem; }
+      footer { flex-direction: column; gap: 1.25rem; text-align: center; }
+      .footer-right { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">POS</div>
+      <span class="nav-wordmark">Practice<span>OS</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="https://calendly.com/consiliumsystems/demo" target="_blank" rel="noopener" class="nav-cta">Book a Demo</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Now accepting beta access
+        </div>
+        <h1 class="hero-h1">
+          Draft SOAs in<br /><em>hours, not days.</em>
+        </h1>
+        <p class="hero-sub">
+          PracticeOS is purpose-built for Australian financial planners. AI-powered SOA drafting, compliance monitoring, and practice management — in one platform.
+        </p>
+        <div class="hero-actions">
+          <a href="#request-access" class="btn-gold">
+            Request Beta Access
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://calendly.com/consiliumsystems/demo" target="_blank" rel="noopener" class="btn-outline">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7.5l1.5 1.5 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Book a Demo
+          </a>
+        </div>
+        <div class="hero-proof">
+          <div class="hero-proof-item">
+            <div class="hero-proof-num">6</div>
+            <div class="hero-proof-label">SOA sections drafted<br/>in minutes</div>
+          </div>
+          <div class="hero-proof-divider"></div>
+          <div class="hero-proof-item">
+            <div class="hero-proof-num">4</div>
+            <div class="hero-proof-label">Practice modules<br/>in one platform</div>
+          </div>
+          <div class="hero-proof-divider"></div>
+          <div class="hero-proof-item">
+            <div class="hero-proof-num">AU</div>
+            <div class="hero-proof-label">Built for Australian<br/>AFSL compliance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- App preview mockup -->
+      <div class="hero-preview">
+        <div class="hero-preview-card">
+          <div class="preview-topbar">
+            <div class="preview-dots">
+              <div class="preview-dot" style="background:#FF5F57"></div>
+              <div class="preview-dot" style="background:#FFBD2E"></div>
+              <div class="preview-dot" style="background:#28CA41"></div>
+            </div>
+            <div class="preview-url">practiceos.consiliumsystems.com.au</div>
+          </div>
+          <div class="preview-body">
+            <div class="preview-sidebar">
+              <div style="font-size:0.58rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;padding:0 0.6rem;">MODULES</div>
+              <div class="preview-sidebar-item active">📄 Virtual Paraplanner</div>
+              <div class="preview-sidebar-item">💰 Practice Finance</div>
+              <div class="preview-sidebar-item">⚖️ Compliance Hub</div>
+              <div class="preview-sidebar-item">🏢 Practice Operations</div>
+              <div style="margin-top:0.75rem;font-size:0.58rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;padding:0 0.6rem;">SOA SECTIONS</div>
+              <div class="preview-sidebar-item active">📋 Executive Summary</div>
+              <div class="preview-sidebar-item">🔍 Fact Find</div>
+              <div class="preview-sidebar-item">📊 Risk Profile</div>
+              <div class="preview-sidebar-item">⚖️ Strategy Comparison</div>
+            </div>
+            <div class="preview-content">
+              <div class="preview-section-label">Executive Summary — Draft Ready</div>
+              <div class="preview-line gold"></div>
+              <div class="preview-line w90"></div>
+              <div class="preview-line w80"></div>
+              <div class="preview-line w65"></div>
+              <div style="height:0.6rem"></div>
+              <div class="preview-line w90"></div>
+              <div class="preview-line w80"></div>
+              <div class="preview-line w50"></div>
+              <div style="height:0.6rem"></div>
+              <div class="preview-line w65"></div>
+              <div class="preview-line w80"></div>
+              <div class="preview-tag">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#4ade80"/></svg>
+                Draft Complete
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM STRIP -->
+  <div class="problem-strip">
+    <div class="problem-inner">
+      <div class="problem-item reveal">
+        <div class="problem-icon">⏱️</div>
+        <div class="problem-text">
+          <strong>SOAs take too long</strong>
+          <p>Manual drafting across six sections costs advisers 4–8 hours per client — time that doesn't scale.</p>
+        </div>
+      </div>
+      <div class="problem-item reveal" style="transition-delay:0.1s">
+        <div class="problem-icon">⚠️</div>
+        <div class="problem-text">
+          <strong>Compliance risk is constant</strong>
+          <p>AFSL obligations, Best Interests Duty, and RG175 requirements demand precision on every document.</p>
+        </div>
+      </div>
+      <div class="problem-item reveal" style="transition-delay:0.2s">
+        <div class="problem-icon">🔀</div>
+        <div class="problem-text">
+          <strong>Practice management is fragmented</strong>
+          <p>Compliance, client reviews, and financial reporting live in separate tools — nothing talks to each other.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULES -->
+  <section class="section" id="modules">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">What's inside</div>
+        <h2 class="section-h2">Four modules.<br/>One practice platform.</h2>
+        <p class="section-sub">Each module is purpose-built for Australian financial planning practices — and they're designed to work together.</p>
+      </div>
+
+      <div class="modules-grid">
+        <div class="module-card featured reveal">
+          <div class="module-icon" style="background:#EBF2FF;">📄</div>
+          <div class="module-badge">⭐ Flagship Module</div>
+          <div class="module-name">Virtual Paraplanner</div>
+          <p class="module-desc">Enter client data once. Generate all six SOA sections — Executive Summary, Fact Find, Risk Profile, Strategy Comparison, Recommendations, and Compliance Notes — in minutes, not hours.</p>
+          <ul class="module-features">
+            <li>AI drafts all 6 SOA sections simultaneously</li>
+            <li>Smart data extraction from meeting notes or PDF</li>
+            <li>Built-in compliance check against AFSL obligations</li>
+            <li>Export to Word or PDF instantly</li>
+            <li>Version history with one-click restore</li>
+          </ul>
+        </div>
+
+        <div class="module-card reveal" style="transition-delay:0.1s">
+          <div class="module-icon" style="background:#ECFDF5;">⚖️</div>
+          <div class="module-badge">Compliance</div>
+          <div class="module-name">Compliance Hub</div>
+          <p class="module-desc">Monitor AFSL obligations across your entire client base. Track FDS dates, fee consent, Best Interests Duty status, and review schedules in one place.</p>
+          <ul class="module-features">
+            <li>Client-level compliance status dashboard</li>
+            <li>FDS and fee consent deadline tracking</li>
+            <li>BID and licensee obligation monitoring</li>
+            <li>Automated overdue and upcoming alerts</li>
+          </ul>
+        </div>
+
+        <div class="module-card reveal" style="transition-delay:0.15s">
+          <div class="module-icon" style="background:#FFF7ED;">💰</div>
+          <div class="module-badge">Financial</div>
+          <div class="module-name">Practice Finance</div>
+          <p class="module-desc">Understand your practice's financial health. Cash flow modelling, revenue per client, margin analysis, and pricing benchmarks tailored to advice practices.</p>
+          <ul class="module-features">
+            <li>Monthly revenue and cost snapshot</li>
+            <li>Profit margin and pricing score</li>
+            <li>Revenue per client benchmarking</li>
+            <li>Hourly rate and capacity analysis</li>
+          </ul>
+        </div>
+
+        <div class="module-card reveal" style="transition-delay:0.2s">
+          <div class="module-icon" style="background:#F5F3FF;">🏢</div>
+          <div class="module-badge">Operations</div>
+          <div class="module-name">Practice Operations</div>
+          <p class="module-desc">Keep client review cycles on track and your team's capacity visible. Track workflow status across your book and surface bottlenecks before they become problems.</p>
+          <ul class="module-features">
+            <li>Client review schedule tracker</li>
+            <li>Workflow and engagement status monitoring</li>
+            <li>Team capacity visibility</li>
+            <li>Review pipeline and upcoming tasks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section" id="demo">
+    <div class="video-bg-grid"></div>
+    <div class="video-inner">
+      <div class="section-label" style="color:var(--gold)">See it in action</div>
+      <h2 class="section-h2" style="color:var(--white)">Watch PracticeOS draft<br/>a full SOA in minutes.</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.5);margin:0 auto;">See exactly how the Virtual Paraplanner turns client fact-find data into a compliant, adviser-ready SOA draft — start to finish.</p>
+
+      <div class="video-placeholder">
+        <div class="video-coming">Demo coming soon</div>
+        <div class="video-play">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M8 5.5l11 6.5-11 6.5V5.5z" fill="#0B1F3A"/>
+          </svg>
+        </div>
+        <div class="video-label">Full product walkthrough — Virtual Paraplanner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">How it works</div>
+        <h2 class="section-h2">From fact-find to<br/>SOA draft in three steps.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-num">01</div>
+          <div class="step-title">Enter client data</div>
+          <p class="step-desc">Paste raw meeting notes, upload a fact-find PDF, or fill in fields manually. PracticeOS extracts and structures the data automatically.</p>
+        </div>
+        <div class="step-card reveal" style="transition-delay:0.1s">
+          <div class="step-num">02</div>
+          <div class="step-title">Generate your SOA</div>
+          <p class="step-desc">One click drafts all six SOA sections simultaneously — Executive Summary through to Compliance Notes — with Australian regulatory standards built in.</p>
+        </div>
+        <div class="step-card reveal" style="transition-delay:0.2s">
+          <div class="step-num">03</div>
+          <div class="step-title">Review, check, export</div>
+          <p class="step-desc">Run an automated compliance check against AFSL obligations and Best Interests Duty. Edit any section, save versions, then export to Word or PDF.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section pricing-section" id="pricing">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-h2">Simple, transparent pricing.</h2>
+        <p class="section-sub">Beta access is free. Post-beta pricing is designed for practices of all sizes — not enterprise licensing fees.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card reveal">
+          <div class="pricing-tier">Beta Access</div>
+          <div class="pricing-price">
+            <span class="pricing-amount">Free</span>
+          </div>
+          <p class="pricing-note">Limited to 20 full SOA generations during beta. No credit card required.</p>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">✓</span> Virtual Paraplanner — full access</li>
+            <li><span class="pricing-check">✓</span> All 6 SOA sections</li>
+            <li><span class="pricing-check">✓</span> Compliance check tool</li>
+            <li><span class="pricing-check">✓</span> Word and PDF export</li>
+            <li><span class="pricing-check">✓</span> Version history</li>
+            <li><span class="pricing-check">✓</span> Compliance Hub <span class="pricing-soon">Beta</span></li>
+            <li><span class="pricing-check">✓</span> Practice Finance <span class="pricing-soon">Beta</span></li>
+            <li><span class="pricing-check">✓</span> Practice Operations <span class="pricing-soon">Beta</span></li>
+          </ul>
+          <a href="#request-access" class="btn-gold" style="width:100%;justify-content:center;display:flex;">Request Beta Access</a>
+        </div>
+
+        <div class="pricing-card featured reveal" style="transition-delay:0.1s">
+          <div class="pricing-featured-badge">Post-Beta Pricing</div>
+          <div class="pricing-tier">Practice Plan</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">A$</span>
+            <span class="pricing-amount">299</span>
+            <span class="pricing-period">/month</span>
+          </div>
+          <p class="pricing-note">Indicative pricing. Founding beta members receive preferred rates when we launch commercially.</p>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">✓</span> Everything in Beta</li>
+            <li><span class="pricing-check">✓</span> Unlimited SOA generations</li>
+            <li><span class="pricing-check">✓</span> Multi-adviser access</li>
+            <li><span class="pricing-check">✓</span> Priority support</li>
+            <li><span class="pricing-check">✓</span> Founding member pricing lock</li>
+            <li><span class="pricing-check">✓</span> Direct input on product roadmap</li>
+          </ul>
+          <a href="https://calendly.com/consiliumsystems/demo" target="_blank" rel="noopener" class="btn-outline" style="width:100%;justify-content:center;display:flex;border-color:var(--border);color:var(--sub);">Book a Demo Call</a>
+        </div>
+      </div>
+
+      <div class="pricing-beta-note reveal">
+        <strong>Beta access is free with no commitment.</strong> We're working directly with a small number of practices during beta to refine PracticeOS before commercial launch. Founding members receive preferred pricing and direct input on the product roadmap.
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="request-access">
+    <div class="cta-glow"></div>
+    <div class="cta-inner">
+      <div class="section-label" style="color:var(--gold);text-align:center;">Get started</div>
+      <h2 class="cta-h2">Ready to reclaim<br/><em>hours every week?</em></h2>
+      <p class="cta-sub">Join the PracticeOS beta. Free access, no commitment. Built for Australian financial planners.</p>
+      <div class="cta-actions">
+        <a href="mailto:info@consiliumsystems.com.au?subject=PracticeOS Beta Access Request&body=Hi,%0A%0AI'm interested in beta access to PracticeOS.%0A%0AFirm name:%0AAFSL number:%0ANumber of advisers:%0A%0AThanks" class="btn-gold" style="font-size:0.95rem;padding:1rem 2rem;">
+          Request Beta Access
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://calendly.com/consiliumsystems/demo" target="_blank" rel="noopener" class="btn-outline" style="font-size:0.95rem;padding:1rem 2rem;">
+          Book a 30-min Demo
+        </a>
+      </div>
+      <p class="cta-footnote">No credit card. No lock-in. Onboarding handled personally.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <div class="footer-brand">Practice<span>OS</span></div>
+      <div style="color:rgba(255,255,255,0.1);font-size:0.8rem;">·</div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.2);">A product of Consilium Systems</div>
+    </div>
+    <div class="footer-right">
+      ABN 94 655 810 737 · <a href="https://consiliumsystems.com.au" target="_blank">consiliumsystems.com.au</a><br/>
+      <span style="color:rgba(255,255,255,0.12);">For use by licensed financial advisers only. AI-generated content requires adviser review before client use.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        nav.style.borderBottomColor = 'rgba(201,168,76,0.2)';
+      } else {
+        nav.style.borderBottomColor = 'rgba(201,168,76,0.15)';
+      }
+    });
+  </script>
+</body>
+</html>
