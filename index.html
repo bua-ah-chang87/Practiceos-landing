@@ -979,6 +979,18 @@
       footer { flex-direction: column; gap: 1.25rem; text-align: center; }
       .footer-right { text-align: center; }
     }
+
+    /* ── MODAL ── */
+    #betaModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11,31,58,0.75);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -1016,7 +1028,7 @@
           PracticeOS is purpose-built for Australian financial planners. AI-powered SOA drafting, compliance monitoring, and practice management — in one platform.
         </p>
         <div class="hero-actions">
-          <a href="#request-access" class="btn-gold">
+          <a href="#" onclick="openBetaModal(); return false;" class="btn-gold">
             Request Beta Access
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -1257,7 +1269,7 @@
             <li><span class="pricing-check">✓</span> Practice Finance <span class="pricing-soon">Beta</span></li>
             <li><span class="pricing-check">✓</span> Practice Operations <span class="pricing-soon">Beta</span></li>
           </ul>
-          <a href="#request-access" class="btn-gold" style="width:100%;justify-content:center;display:flex;">Request Beta Access</a>
+          <a href="#" onclick="openBetaModal(); return false;" class="btn-gold" style="width:100%;justify-content:center;display:flex;">Request Beta Access</a>
         </div>
 
         <div class="pricing-card featured reveal" style="transition-delay:0.1s">
@@ -1295,7 +1307,7 @@
       <h2 class="cta-h2">Ready to reclaim<br/><em>hours every week?</em></h2>
       <p class="cta-sub">Join the PracticeOS beta. Free access, no commitment. Built for Australian financial planners.</p>
       <div class="cta-actions">
-        <a href="mailto:info@consiliumsystems.com.au?subject=PracticeOS Beta Access Request&body=Hi,%0A%0AI'm interested in beta access to PracticeOS.%0A%0AFirm name:%0AAFSL number:%0ANumber of advisers:%0A%0AThanks" class="btn-gold" style="font-size:0.95rem;padding:1rem 2rem;">
+        <a href="#" onclick="openBetaModal(); return false;" class="btn-gold" style="font-size:0.95rem;">
           Request Beta Access
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1320,8 +1332,84 @@
     </div>
   </footer>
 
+  <!-- Beta Access Modal -->
+  <div id="betaModal">
+    <div style="background:#fff; border-radius:12px; padding:2.5rem; width:100%; max-width:480px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <button onclick="closeBetaModal()" style="position:absolute; top:1rem; right:1.25rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#637488; line-height:1;">&#x2715;</button>
+      <h2 style="font-family:'DM Serif Display',serif; color:#0B1F3A; margin-bottom:0.4rem; font-size:1.5rem;">Request Beta Access</h2>
+      <p style="color:#637488; margin-bottom:1.5rem; font-size:0.9rem;">We're onboarding a small group of Australian financial planning practices. We'll be in touch within 24 hours.</p>
+      <div id="betaFormMsg" style="display:none; background:#F5EDD6; border-radius:8px; padding:0.85rem 1rem; margin-bottom:1rem; color:#0B1F3A; font-size:0.88rem;"></div>
+      <div style="display:flex; flex-direction:column; gap:0.85rem;">
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Full Name *</label>
+          <input id="betaName" type="text" placeholder="Jane Smith" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Email Address *</label>
+          <input id="betaEmail" type="email" placeholder="jane@yourpractice.com.au" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Practice Name *</label>
+          <input id="betaPractice" type="text" placeholder="Smith Financial Planning" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
+        </div>
+        <button onclick="submitBetaForm()" id="betaSubmitBtn" style="background:#C9A84C; color:#fff; border:none; padding:0.85rem; border-radius:8px; font-size:0.95rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:0.25rem; letter-spacing:0.01em;">Send Request</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Scroll reveal
+    // ── Beta Access Modal ──
+    function openBetaModal() {
+      const modal = document.getElementById('betaModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeBetaModal() {
+      document.getElementById('betaModal').style.display = 'none';
+      document.body.style.overflow = '';
+      document.getElementById('betaFormMsg').style.display = 'none';
+      ['betaName','betaEmail','betaPractice'].forEach(id => document.getElementById(id).value = '');
+      const btn = document.getElementById('betaSubmitBtn');
+      btn.textContent = 'Send Request';
+      btn.disabled = false;
+    }
+    document.getElementById('betaModal').addEventListener('click', function(e) {
+      if (e.target === this) closeBetaModal();
+    });
+    function submitBetaForm() {
+      const name = document.getElementById('betaName').value.trim();
+      const email = document.getElementById('betaEmail').value.trim();
+      const practice = document.getElementById('betaPractice').value.trim();
+      const msg = document.getElementById('betaFormMsg');
+      msg.style.display = 'none';
+      if (!name || !email || !practice) {
+        msg.style.display = 'block';
+        msg.textContent = 'Please complete all fields before submitting.';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.style.display = 'block';
+        msg.textContent = 'Please enter a valid email address.';
+        return;
+      }
+      const btn = document.getElementById('betaSubmitBtn');
+      btn.textContent = 'Opening your email client...';
+      btn.disabled = true;
+      const subject = encodeURIComponent('PracticeOS Beta Access Request');
+      const body = encodeURIComponent(
+        'Name: ' + name + '\nEmail: ' + email + '\nPractice: ' + practice +
+        '\n\n---\nSubmitted via go.consiliumsystems.com.au'
+      );
+      window.location.href = 'mailto:info@consiliumsystems.com.au?subject=' + subject + '&body=' + body;
+      setTimeout(function() {
+        msg.style.display = 'block';
+        msg.textContent = '✓ Your email client should have opened. If not, email us directly at info@consiliumsystems.com.au';
+        btn.textContent = 'Send Request';
+        btn.disabled = false;
+      }, 1500);
+    }
+
+    // ── Scroll reveal ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1332,10 +1420,12 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Smooth scroll for anchor links
+    // ── Smooth scroll for anchor links ──
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
         if (target) {
           e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1343,7 +1433,7 @@
       });
     });
 
-    // Nav scroll effect
+    // ── Nav scroll effect ──
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
