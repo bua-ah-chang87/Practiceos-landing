@@ -1393,20 +1393,29 @@
         return;
       }
       const btn = document.getElementById('betaSubmitBtn');
-      btn.textContent = 'Opening your email client...';
+      btn.textContent = 'Sending...';
       btn.disabled = true;
-      const subject = encodeURIComponent('PracticeOS Beta Access Request');
-      const body = encodeURIComponent(
-        'Name: ' + name + '\nEmail: ' + email + '\nPractice: ' + practice +
-        '\n\n---\nSubmitted via go.consiliumsystems.com.au'
-      );
-      window.location.href = 'mailto:info@consiliumsystems.com.au?subject=' + subject + '&body=' + body;
-      setTimeout(function() {
+      fetch('https://formspree.io/f/xqewdwkb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, practice: practice })
+      })
+      .then(function(response) {
+        if (response.ok) {
+          msg.style.display = 'block';
+          msg.textContent = '✓ Request received! We\'ll be in touch within 24 hours.';
+          ['betaName','betaEmail','betaPractice'].forEach(id => document.getElementById(id).value = '');
+          btn.textContent = 'Sent!';
+        } else {
+          throw new Error('Server error');
+        }
+      })
+      .catch(function() {
         msg.style.display = 'block';
-        msg.textContent = '✓ Your email client should have opened. If not, email us directly at info@consiliumsystems.com.au';
+        msg.textContent = 'Something went wrong. Please email us directly at info@consiliumsystems.com.au';
         btn.textContent = 'Send Request';
         btn.disabled = false;
-      }, 1500);
+      });
     }
 
     // ── Scroll reveal ──
