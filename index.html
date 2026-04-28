@@ -1,1436 +1,870 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PracticeOS — AI-Powered Practice Management for Financial Planners</title>
-  <meta name="description" content="PracticeOS helps Australian financial planners draft SOAs in a fraction of the time. Built for compliance, designed for efficiency." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --navy: #0B1F3A;
-      --navy2: #122d50;
-      --gold: #C9A84C;
-      --gold-lt: #F5EDD6;
-      --gold-dk: #A8892E;
-      --white: #FFFFFF;
-      --mist: #F3F6FB;
-      --border: #DDE3EC;
-      --text: #1C2B3A;
-      --sub: #637488;
-      --blue: #1A56DB;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--white);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 3rem;
-      background: rgba(11,31,58,0.97);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-    }
-
-    .nav-logo-mark {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dk));
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.75rem; color: var(--navy);
-      letter-spacing: -0.02em;
-    }
-
-    .nav-wordmark {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
-      color: var(--white);
-      letter-spacing: -0.01em;
-    }
-
-    .nav-wordmark span {
-      color: var(--gold);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.55);
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--gold);
-      color: var(--navy) !important;
-      font-weight: 700 !important;
-      padding: 0.5rem 1.25rem;
-      border-radius: 8px;
-      transition: background 0.2s, transform 0.15s !important;
-    }
-
-    .nav-cta:hover {
-      background: #d4b04a !important;
-      transform: translateY(-1px);
-      color: var(--navy) !important;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      background: var(--navy);
-      position: relative;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background-image: url('hero-bg.jpg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.08;
-    }
-
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    .hero-glow {
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-glow-2 {
-      position: absolute;
-      bottom: -10%;
-      left: -5%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(26,86,219,0.07) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 8rem 3rem 5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(201,168,76,0.12);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 999px;
-      padding: 0.35rem 1rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero-badge-dot {
-      width: 6px; height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      animation: pulse 2s ease infinite;
-    }
-
-    .hero-h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 3.5rem;
-      line-height: 1.1;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
-    .hero-h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .hero-sub {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 2.5rem;
-      max-width: 480px;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-
-    .btn-gold {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--gold);
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 0.85rem 1.75rem;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-gold:hover {
-      background: #d4b04a;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(201,168,76,0.35);
-    }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: transparent;
-      color: rgba(255,255,255,0.75);
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.85rem 1.75rem;
-      border-radius: 10px;
-      text-decoration: none;
-      border: 1.5px solid rgba(255,255,255,0.2);
-      transition: border-color 0.2s, color 0.2s, transform 0.15s;
-      cursor: pointer;
-    }
-
-    .btn-outline:hover {
-      border-color: rgba(255,255,255,0.5);
-      color: var(--white);
-      transform: translateY(-2px);
-    }
-
-    .hero-proof {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
-
-    .hero-proof-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .hero-proof-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.6rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-
-    .hero-proof-label {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.4);
-      font-weight: 500;
-    }
-
-    .hero-proof-divider {
-      width: 1px;
-      height: 36px;
-      background: rgba(255,255,255,0.1);
-    }
-
-    /* Hero right — app preview */
-    .hero-preview {
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
-
-    .hero-preview-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.1);
-    }
-
-    .preview-topbar {
-      background: rgba(255,255,255,0.06);
-      padding: 0.75rem 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .preview-dots {
-      display: flex;
-      gap: 0.4rem;
-    }
-
-    .preview-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-    }
-
-    .preview-url {
-      flex: 1;
-      background: rgba(255,255,255,0.06);
-      border-radius: 6px;
-      padding: 0.3rem 0.75rem;
-      font-size: 0.68rem;
-      color: rgba(255,255,255,0.3);
-      font-family: monospace;
-    }
-
-    .preview-body {
-      padding: 1.25rem;
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .preview-sidebar {
-      width: 140px;
-      flex-shrink: 0;
-    }
-
-    .preview-sidebar-item {
-      padding: 0.45rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 0.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .preview-sidebar-item.active {
-      background: rgba(26,86,219,0.25);
-      color: #93C5FD;
-      border-left: 2px solid #3B82F6;
-    }
-
-    .preview-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .preview-section-label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .preview-line {
-      height: 7px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 4px;
-      margin-bottom: 0.4rem;
-    }
-
-    .preview-line.gold { background: rgba(201,168,76,0.25); width: 60%; }
-    .preview-line.w80 { width: 80%; }
-    .preview-line.w65 { width: 65%; }
-    .preview-line.w90 { width: 90%; }
-    .preview-line.w50 { width: 50%; }
-
-    .preview-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      background: rgba(74,222,128,0.15);
-      border: 1px solid rgba(74,222,128,0.25);
-      border-radius: 999px;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.58rem;
-      color: #4ade80;
-      font-weight: 700;
-      margin-top: 0.5rem;
-    }
-
-    /* ── SECTION SHARED ── */
-    .section {
-      padding: 6rem 3rem;
-    }
-
-    .section-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.75rem;
-    }
-
-    .section-h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.5rem;
-      color: var(--navy);
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-
-    .section-sub {
-      font-size: 1rem;
-      color: var(--sub);
-      line-height: 1.7;
-      max-width: 560px;
-    }
-
-    /* ── PROBLEM STRIP ── */
-    .problem-strip {
-      background: var(--mist);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 3.5rem 3rem;
-    }
-
-    .problem-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .problem-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .problem-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .problem-text strong {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 0.25rem;
-    }
-
-    .problem-text p {
-      font-size: 0.8rem;
-      color: var(--sub);
-      line-height: 1.6;
-    }
-
-    /* ── MODULES ── */
-    .modules-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-      margin-top: 3rem;
-    }
-
-    .module-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-    }
-
-    .module-card:hover {
-      box-shadow: 0 12px 40px rgba(11,31,58,0.1);
-      transform: translateY(-3px);
-      border-color: rgba(201,168,76,0.4);
-    }
-
-    .module-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold), var(--gold-dk));
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .module-card:hover::before { opacity: 1; }
-
-    .module-card.featured {
-      border-color: rgba(201,168,76,0.3);
-      background: linear-gradient(135deg, #FFFDF5 0%, var(--white) 100%);
-    }
-
-    .module-card.featured::before { opacity: 1; }
-
-    .module-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .module-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: var(--gold-lt);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 999px;
-      padding: 0.2rem 0.7rem;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--gold-dk);
-      letter-spacing: 0.04em;
-      margin-bottom: 0.75rem;
-    }
-
-    .module-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem;
-      color: var(--navy);
-      margin-bottom: 0.5rem;
-    }
-
-    .module-desc {
-      font-size: 0.83rem;
-      color: var(--sub);
-      line-height: 1.65;
-      margin-bottom: 1.25rem;
-    }
-
-    .module-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .module-features li {
-      font-size: 0.78rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .module-features li::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    /* ── VIDEO ── */
-    .video-section {
-      background: var(--navy);
-      padding: 6rem 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .video-bg-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    .video-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-
-    .video-placeholder {
-      margin-top: 3rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      aspect-ratio: 16/9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .video-play {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .video-play:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 36px rgba(201,168,76,0.4);
-    }
-
-    .video-play svg {
-      margin-left: 4px;
-    }
-
-    .video-label {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-    }
-
-    .video-coming {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      background: rgba(201,168,76,0.15);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 999px;
-      padding: 0.25rem 0.75rem;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    /* ── HOW IT WORKS ── */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .step-card {
-      position: relative;
-      padding: 2rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-
-    .step-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 3rem;
-      color: rgba(201,168,76,0.15);
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    .step-title {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--navy);
-      margin-bottom: 0.5rem;
-    }
-
-    .step-desc {
-      font-size: 0.82rem;
-      color: var(--sub);
-      line-height: 1.65;
-    }
-
-    /* ── PRICING ── */
-    .pricing-section {
-      background: var(--mist);
-      border-top: 1px solid var(--border);
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 3rem;
-      max-width: 800px;
-    }
-
-    .pricing-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem 2.25rem;
-      position: relative;
-    }
-
-    .pricing-card.featured {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 1px rgba(201,168,76,0.2), 0 20px 50px rgba(11,31,58,0.08);
-    }
-
-    .pricing-featured-badge {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--gold);
-      color: var(--navy);
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.25rem 1rem;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .pricing-tier {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--sub);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .pricing-price {
-      display: flex;
-      align-items: baseline;
-      gap: 0.25rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .pricing-currency {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-top: 0.3rem;
-    }
-
-    .pricing-amount {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.75rem;
-      color: var(--navy);
-      line-height: 1;
-    }
-
-    .pricing-period {
-      font-size: 0.8rem;
-      color: var(--sub);
-    }
-
-    .pricing-note {
-      font-size: 0.74rem;
-      color: var(--sub);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .pricing-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 1.75rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .pricing-features li {
-      font-size: 0.82rem;
-      color: var(--text);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      line-height: 1.5;
-    }
-
-    .pricing-check {
-      color: #16A34A;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .pricing-soon {
-      display: inline-block;
-      background: var(--gold-lt);
-      color: var(--gold-dk);
-      font-size: 0.62rem;
-      font-weight: 700;
-      padding: 0.1rem 0.45rem;
-      border-radius: 4px;
-      margin-left: 0.35rem;
-      letter-spacing: 0.04em;
-    }
-
-    .pricing-beta-note {
-      background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      font-size: 0.78rem;
-      color: var(--gold-dk);
-      line-height: 1.6;
-      margin-top: 1rem;
-      max-width: 800px;
-    }
-
-    /* ── CTA BLOCK ── */
-    .cta-section {
-      background: var(--navy);
-      padding: 7rem 3rem;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-
-    .cta-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 400px;
-      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cta-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-
-    .cta-h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.75rem;
-      color: var(--white);
-      line-height: 1.15;
-      margin-bottom: 1.25rem;
-    }
-
-    .cta-h2 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .cta-sub {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-    }
-
-    .cta-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .cta-footnote {
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.25);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #070F1E;
-      padding: 2.5rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .footer-brand {
-      font-family: 'DM Serif Display', serif;
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.4);
-    }
-
-    .footer-brand span { color: var(--gold); }
-
-    .footer-right {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.2);
-      line-height: 1.6;
-      text-align: right;
-    }
-
-    .footer-right a {
-      color: rgba(255,255,255,0.35);
-      text-decoration: none;
-    }
-
-    .footer-right a:hover { color: var(--gold); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero-inner { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; }
-      .hero-preview { display: none; }
-      .hero-h1 { font-size: 2.5rem; }
-      .problem-inner { grid-template-columns: 1fr; gap: 1.25rem; }
-      .modules-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
-      .section { padding: 4rem 1.5rem; }
-      .section-h2 { font-size: 1.9rem; }
-      footer { flex-direction: column; gap: 1.25rem; text-align: center; }
-      .footer-right { text-align: center; }
-    }
-
-    /* ── MODAL ── */
-    #betaModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(11,31,58,0.75);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consilium Systems — Independent AI Advisory for Regulated advisory practices</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Literata:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* NAV */
+nav:not(.footer-nav) { position:fixed; top:0; left:0; right:0; z-index:200; }
+
+
+
+
+
+
+ 
+
+
+
+:root {
+  --midnight: #0A0F1E;
+  --navy:     #0D1B3E;
+  --cobalt:   #1A3A8F;
+  --gold:     #C9A84C;
+  --gold-lt:  #E2C97E;
+  --gold-dim: rgba(201,168,76,0.12);
+  --cream:    #F5F0E8;
+  --fog:      #C8C3B8;
+  --slate:    #64748B;
+  --slate-lt: #94A3B8;
+  --white:    #FFFFFF;
+  --border:   rgba(255,255,255,0.06);
+  --disp:     'Cormorant Garamond', Georgia, serif;
+  --body:     'Literata', Georgia, serif;
+  --mono:     'DM Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+a { color: inherit; text-decoration: none; }
+html { scroll-behavior:smooth; }
+body { background:var(--midnight); color:var(--fog); font-family:var(--body); font-size:17px; line-height:1.75; overflow-x:hidden; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ─── HERO ────────────────────────────────────────────────────── */
+.hero {
+  min-height:100vh; padding-top:66px;
+  display:flex; align-items:center;
+  position:relative; overflow:hidden;
+}
+
+/* Atmospheric background */
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 65% 38%, rgba(26,58,143,0.22), transparent 68%),
+    radial-gradient(ellipse 45% 50% at 15% 75%, rgba(201,168,76,0.07), transparent 62%),
+    radial-gradient(ellipse 30% 40% at 85% 80%, rgba(10,15,30,0.8), transparent);
+  pointer-events:none;
+}
+
+/* Precision grid */
+.hero::after {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size:80px 80px; pointer-events:none;
+}
+
+/* Gold accent line */
+.hero-accent {
+  position:absolute; top:100px; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--gold) 0%, rgba(201,168,76,0.3) 40%, transparent 75%);
+  z-index:2;
+}
+
+.hero-inner {
+  max-width:1200px; margin:0 auto; padding:5rem 5rem;
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:6rem;
+  align-items:center; position:relative; z-index:3; width:100%;
+}
+
+/* Left column */
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:0.75rem;
+  font-family:var(--mono); font-size:0.58rem; letter-spacing:0.3em;
+  color:var(--gold); text-transform:uppercase; margin-bottom:0.85rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.05s both;
+}
+.hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); flex-shrink:0; }
+
+.hero-category {
+  font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em;
+  color:var(--midnight); background:var(--gold);
+  padding:0.28rem 0.8rem; text-transform:uppercase; display:inline-block;
+  margin-bottom:1.5rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.12s both;
+}
+
+.hero-h1 {
+  font-family:var(--disp); font-size:clamp(2.6rem,4.2vw,4rem);
+  font-weight:600; color:var(--white); line-height:1.07;
+  letter-spacing:-0.022em; margin-bottom:1.6rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.22s both;
+}
+.hero-h1 em { font-style:italic; font-weight:300; color:var(--gold-lt); display:block; }
+
+.hero-sectors {
+  display:flex; flex-wrap:wrap; gap:0.45rem;
+  margin-bottom:1.5rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.32s both;
+}
+.hero-sector {
+  font-family:var(--mono); font-size:0.55rem; letter-spacing:0.1em;
+  padding:0.28rem 0.7rem; text-transform:uppercase; border:1px solid;
+}
+.hero-sector.primary { border-color:rgba(201,168,76,0.5); color:var(--gold); }
+.hero-sector.other   { border-color:rgba(255,255,255,0.1); color:var(--slate); }
+
+.hero-sub {
+  font-family:var(--body); font-size:1.05rem; font-weight:300;
+  color:var(--fog); line-height:1.8; max-width:500px;
+  margin-bottom:2.25rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.38s both;
+}
+.hero-sub strong { color:var(--white); font-weight:500; }
+
+.hero-price-row {
+  display:flex; align-items:center; gap:1.75rem;
+  margin-bottom:2rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.46s both;
+}
+.hero-price { font-family:var(--disp); font-size:2.2rem; font-weight:700; color:var(--white); line-height:1; }
+.hero-price sub { font-size:0.9rem; font-weight:300; color:var(--slate); font-family:var(--mono); }
+.hero-price-pipe { width:1px; height:40px; background:rgba(255,255,255,0.12); }
+.hero-price-note { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; color:var(--slate); text-transform:uppercase; line-height:1.8; }
+
+.hero-ctas {
+  display:flex; align-items:center; gap:2rem;
+  opacity:0; animation:fadeUp 0.75s ease 0.54s both;
+}
+.btn-gold {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:var(--gold); color:var(--midnight);
+  font-family:var(--mono); font-size:0.68rem; font-weight:500;
+  letter-spacing:0.1em; text-transform:uppercase;
+  padding:1rem 2.1rem; text-decoration:none;
+  transition:background 0.2s, transform 0.15s;
+}
+.btn-gold:hover { background:var(--gold-lt); transform:translateY(-1px); }
+.btn-text {
+  font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em;
+  color:var(--slate); text-decoration:none; text-transform:uppercase;
+  border-bottom:1px solid rgba(100,116,139,0.35);
+  transition:color 0.2s, border-color 0.2s; padding-bottom:1px;
+}
+.btn-text:hover { color:var(--fog); border-color:var(--fog); }
+
+/* Right — Snapshot card */
+.snapshot-card {
+  background:rgba(13,27,62,0.75); border:1px solid rgba(201,168,76,0.18);
+  backdrop-filter:blur(10px); padding:2.5rem;
+  opacity:0; animation:fadeIn 1s ease 0.6s both;
+  position:relative;
+}
+.snapshot-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--gold), rgba(201,168,76,0.2));
+}
+.sc-label { font-family:var(--mono); font-size:0.55rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:0.4rem; }
+.sc-title { font-family:var(--disp); font-size:1.55rem; font-weight:700; color:var(--white); margin-bottom:0.35rem; line-height:1.2; }
+.sc-sub { font-family:var(--body); font-size:0.85rem; color:var(--slate); margin-bottom:1rem; font-style:italic; }
+.sc-price { font-family:var(--disp); font-size:2.9rem; font-weight:700; color:var(--white); line-height:1; }
+.sc-price span { font-size:1rem; font-weight:300; color:var(--slate); }
+.sc-gst { font-family:var(--mono); font-size:0.55rem; color:var(--slate); letter-spacing:0.1em; margin-bottom:0.3rem; }
+.sc-duration { font-family:var(--mono); font-size:0.57rem; letter-spacing:0.15em; color:var(--slate); text-transform:uppercase; padding-bottom:1.4rem; margin-bottom:1.4rem; border-bottom:1px solid var(--border); }
+.sc-list { list-style:none; display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1.5rem; }
+.sc-list li { display:flex; gap:0.75rem; font-family:var(--body); font-size:0.87rem; color:var(--fog); line-height:1.5; }
+.sc-list li::before { content:'→'; font-family:var(--mono); font-size:0.68rem; color:var(--gold); flex-shrink:0; margin-top:2px; }
+.sc-entry-note { background:rgba(26,58,143,0.2); border-left:2px solid var(--cobalt); padding:0.8rem 1rem; font-family:var(--body); font-size:0.8rem; color:var(--slate); font-style:italic; line-height:1.6; }
+
+/* ─── TRUST STRIP ─────────────────────────────────────────────── */
+.trust-strip { background:var(--navy); border-top:1px solid rgba(201,168,76,0.08); border-bottom:1px solid rgba(201,168,76,0.08); padding:1.5rem 5rem; }
+.trust-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap; }
+.trust-item { display:flex; align-items:center; gap:0.6rem; font-family:var(--mono); font-size:0.58rem; letter-spacing:0.12em; color:var(--slate); text-transform:uppercase; }
+.trust-item::before { content:'✓'; color:#4ADE80; font-size:0.65rem; font-weight:700; }
+.trust-founding { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; color:var(--gold); text-transform:uppercase; border:1px solid rgba(201,168,76,0.3); padding:0.38rem 1rem; }
+
+/* ─── SECTION BASE ────────────────────────────────────────────── */
+.section { padding:7.5rem 5rem; }
+.section-inner { max-width:1200px; margin:0 auto; }
+.s-tag { display:inline-flex; align-items:center; gap:0.75rem; font-family:var(--mono); font-size:0.57rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:1.25rem; }
+.s-tag::before { content:''; width:28px; height:1px; background:var(--gold); flex-shrink:0; }
+.s-h2 { font-family:var(--disp); font-size:clamp(1.9rem,3.2vw,2.8rem); font-weight:600; color:var(--white); line-height:1.1; letter-spacing:-0.015em; margin-bottom:1.25rem; }
+.s-h2 em { font-style:italic; font-weight:300; color:var(--gold-lt); }
+.s-body { font-family:var(--body); font-size:1rem; color:var(--fog); line-height:1.85; max-width:580px; }
+
+/* ─── PROBLEM ─────────────────────────────────────────────────── */
+.problem { background:var(--midnight); border-top:1px solid var(--border); }
+.problem-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+.pain-stack { display:flex; flex-direction:column; gap:1px; }
+.pain-item { background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:1.4rem 1.6rem; display:flex; gap:1.25rem; transition:background 0.2s; }
+.pain-item:hover { background:rgba(255,255,255,0.055); }
+.pain-n { font-family:var(--mono); font-size:0.56rem; color:var(--gold); letter-spacing:0.12em; flex-shrink:0; margin-top:4px; }
+.pain-body strong { display:block; font-family:var(--body); font-size:0.92rem; font-weight:600; color:var(--white); margin-bottom:0.25rem; }
+.pain-body p { font-family:var(--body); font-size:0.82rem; color:var(--slate-lt); line-height:1.7; }
+
+/* ─── WHO WE SERVE ────────────────────────────────────────────── */
+.serve { background:rgba(13,27,62,0.25); }
+.serve-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); margin-top:3.5rem; }
+.serve-card { background:var(--midnight); padding:2.25rem 2rem; transition:background 0.25s; }
+.serve-card:hover { background:rgba(13,27,62,0.9); }
+.serve-icon { font-size:1.3rem; margin-bottom:1rem; }
+.serve-name { font-family:var(--disp); font-size:1.1rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+.serve-desc { font-family:var(--body); font-size:0.83rem; color:var(--slate); line-height:1.65; margin-bottom:1rem; }
+.serve-badge { font-family:var(--mono); font-size:0.52rem; letter-spacing:0.12em; padding:0.25rem 0.6rem; text-transform:uppercase; display:inline-block; }
+.serve-badge.launch { background:rgba(201,168,76,0.12); color:var(--gold); border:1px solid rgba(201,168,76,0.25); }
+.serve-badge.expand { background:rgba(255,255,255,0.04); color:var(--slate); border:1px solid var(--border); }
+
+/* ─── SNAPSHOT SECTION ────────────────────────────────────────── */
+.snapshot { background:var(--navy); }
+.snapshot-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; margin-top:3rem; }
+.snapshot-left { display:flex; flex-direction:column; gap:1.5rem; }
+.snapshot-details { display:flex; flex-direction:column; gap:1px; }
+.snap-row { background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:1.15rem 1.4rem; display:flex; gap:1rem; align-items:flex-start; }
+.snap-check { color:#4ADE80; font-family:var(--mono); font-size:0.7rem; flex-shrink:0; margin-top:3px; width:18px; }
+.snap-text { font-family:var(--body); font-size:0.9rem; color:var(--fog); line-height:1.55; }
+.snap-out-box { border:1px solid var(--border); background:rgba(255,255,255,0.02); padding:1.25rem 1.5rem; margin-top:1.75rem; }
+.snap-out-title { font-family:var(--mono); font-size:0.57rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:0.75rem; }
+.snap-out-list { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+.snap-out-list li { display:flex; gap:0.7rem; font-family:var(--body); font-size:0.85rem; color:var(--slate); line-height:1.5; }
+.snap-out-list li::before { content:'–'; font-family:var(--mono); color:var(--slate); flex-shrink:0; }
+.snap-note-box { background:rgba(26,58,143,0.15); border-left:2px solid var(--cobalt); padding:1rem 1.25rem; font-family:var(--body); font-size:0.82rem; color:var(--slate); font-style:italic; line-height:1.7; margin-top:1.5rem; }
+
+.snapshot-right {}
+.snap-price-panel { background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.18); padding:2rem 2.25rem; margin-bottom:1.5rem; }
+.snap-price-label { font-family:var(--mono); font-size:0.57rem; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin-bottom:0.5rem; }
+.snap-price-val { font-family:var(--disp); font-size:3rem; font-weight:700; color:var(--white); line-height:1; margin-bottom:0.2rem; }
+.snap-price-val span { font-size:1.1rem; font-weight:300; color:var(--slate); }
+.snap-price-sub { font-family:var(--mono); font-size:0.57rem; color:var(--slate); letter-spacing:0.1em; margin-bottom:1.25rem; padding-bottom:1.25rem; border-bottom:1px solid var(--border); }
+.snap-price-detail { font-family:var(--body); font-size:0.88rem; color:var(--fog); line-height:1.75; }
+.snap-entry-label {
+  font-family:var(--body); font-size:0.85rem; letter-spacing:0;
+  color:var(--slate); text-transform:none;
+  background:rgba(255,255,255,0.05); border:1px solid var(--border);
+  padding:1.1rem 1.4rem; line-height:1.7; font-style:italic;
+}
+.snap-entry-label strong { color:var(--gold-lt); display:block; margin-bottom:0.3rem; font-size:0.875rem; font-family:var(--body); font-weight:600; letter-spacing:0; font-style:normal; }
+
+/* ─── BEYOND THE SNAPSHOT ─────────────────────────────────────── */
+.beyond { background:var(--midnight); border-top:1px solid var(--border); }
+.beyond-intro { max-width:680px; margin-bottom:3.5rem; }
+.beyond-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); }
+.beyond-card { background:var(--midnight); padding:2.5rem 2.25rem; transition:background 0.25s; border-left:0px solid transparent; transition:background 0.25s, border-left 0.25s; }
+.beyond-card:hover { background:rgba(13,27,62,0.7); border-left:3px solid var(--gold); }
+.bc-num { font-family:var(--disp); font-size:2.8rem; font-weight:700; color:rgba(201,168,76,0.1); line-height:1; margin-bottom:0.75rem; transition:color 0.25s; }
+.beyond-card:hover .bc-num { color:rgba(201,168,76,0.25); }
+.bc-title { font-family:var(--body); font-size:1rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+.bc-desc { font-family:var(--body); font-size:0.87rem; color:var(--slate); line-height:1.7; }
+.bc-tag { font-family:var(--mono); font-size:0.52rem; letter-spacing:0.15em; color:var(--gold); text-transform:uppercase; margin-top:1rem; }
+.beyond-scope-note { margin-top:2.5rem; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-left:2px solid var(--gold); padding:1.25rem 1.5rem; font-family:var(--body); font-size:0.85rem; color:var(--slate-lt); line-height:1.75; font-style:italic; }
+
+/* ─── INDEPENDENCE ────────────────────────────────────────────── */
+.independence { background:var(--navy); }
+.ind-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:start; }
+.ind-statement { font-family:var(--disp); font-size:1.65rem; font-weight:600; color:var(--white); line-height:1.35; margin-bottom:1.5rem; font-style:italic; border-left:3px solid var(--gold); padding-left:1.5rem; }
+.ind-pillars { display:flex; flex-direction:column; gap:1px; }
+.ind-pillar { background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:1.2rem 1.5rem; display:flex; gap:1.25rem; align-items:flex-start; }
+.ind-pillar-icon { font-size:1.1rem; flex-shrink:0; }
+.ind-pillar-body strong { display:block; font-family:var(--body); font-size:0.92rem; font-weight:600; color:var(--white); margin-bottom:0.2rem; }
+.ind-pillar-body p { font-family:var(--body); font-size:0.82rem; color:var(--slate); line-height:1.65; }
+
+/* ─── CREDENTIALS ─────────────────────────────────────────────── */
+.creds { background:var(--midnight); }
+.creds-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+.cred-identity { font-family:var(--body); font-size:1rem; color:var(--fog); line-height:1.85; margin-bottom:1.5rem; }
+.cred-identity strong { color:var(--white); }
+.cred-future { background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.15); padding:1.1rem 1.4rem; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; color:var(--gold); line-height:1.8; }
+.cred-list { display:flex; flex-direction:column; gap:1px; }
+.cred-item { background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:1.5rem 1.4rem; }
+.cred-item-header { display:flex; gap:1rem; align-items:flex-start; margin-bottom:0.8rem; }
+.cred-icon { width:42px; height:42px; border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; font-size:1.05rem; flex-shrink:0; background:rgba(201,168,76,0.05); }
+.cred-title-block strong { display:block; font-family:var(--body); font-size:0.95rem; font-weight:700; color:var(--white); margin-bottom:0.15rem; }
+.cred-title-block em { font-family:var(--mono); font-size:0.57rem; letter-spacing:0.1em; color:var(--gold); text-transform:uppercase; font-style:normal; }
+.cred-body { font-family:var(--body); font-size:0.82rem; color:var(--slate); line-height:1.7; padding-left:3.4rem; }
+
+/* ─── CTA ─────────────────────────────────────────────────────── */
+.cta-section {
+  background:var(--midnight); padding:9rem 5rem; text-align:center;
+  position:relative; overflow:hidden; border-top:1px solid rgba(201,168,76,0.08);
+}
+.cta-section::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 55% 65% at 50% 50%, rgba(26,58,143,0.28), transparent);
+  pointer-events:none;
+}
+.cta-section::after {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size:80px 80px; pointer-events:none;
+}
+.cta-inner { position:relative; z-index:2; max-width:640px; margin:0 auto; }
+.cta-h2 { font-family:var(--disp); font-size:clamp(2rem,4vw,3.4rem); font-weight:600; color:var(--white); line-height:1.1; margin-bottom:1.25rem; letter-spacing:-0.015em; }
+.cta-h2 em { font-style:italic; font-weight:300; color:var(--gold-lt); }
+.cta-body { font-family:var(--body); font-size:1rem; color:var(--fog); line-height:1.85; margin-bottom:1.75rem; }
+.cta-price-band { display:inline-flex; align-items:center; gap:1.25rem; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); padding:0.85rem 1.75rem; margin-bottom:2.5rem; }
+.cta-price-band span { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; color:var(--gold); text-transform:uppercase; }
+.cta-price-band strong { font-family:var(--disp); font-size:1.5rem; font-weight:700; color:var(--white); }
+.cta-price-band div { width:1px; height:28px; background:rgba(201,168,76,0.3); }
+.cta-form { display:flex; gap:0; max-width:460px; margin:0 auto 1.25rem; }
+.cta-input { flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-right:none; color:var(--white); font-family:var(--body); font-size:0.92rem; padding:0.95rem 1.3rem; outline:none; transition:border-color 0.2s; }
+.cta-input:focus { border-color:var(--gold); }
+.cta-input::placeholder { color:var(--slate); }
+.cta-btn { background:var(--gold); color:var(--midnight); border:none; padding:0.95rem 1.75rem; font-family:var(--mono); font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
+.cta-btn:hover { background:var(--gold-lt); }
+.cta-note { font-family:var(--mono); font-size:0.56rem; letter-spacing:0.15em; color:var(--slate); text-transform:uppercase; }
+
+/* ─── FOOTER ──────────────────────────────────────────────────── */
+footer { background:#060B18; padding:4rem 5rem; border-top:1px solid rgba(255,255,255,0.04); }
+.footer-top { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:2rem; margin-bottom:2.5rem; }
+.footer-brand { font-family:var(--disp); font-size:1.5rem; font-weight:700; color:var(--white); }
+.footer-brand span { color:var(--gold); }
+.footer-tagline { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.15em; color:var(--slate); text-transform:uppercase; margin-top:0.4rem; }
+.footer-
+.footer-nav a { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.15em; color:var(--slate); text-decoration:none; text-transform:uppercase; transition:color 0.2s; }
+.footer-nav a:hover { color:var(--fog); }
+.footer-bottom { padding-top:2rem; border-top:1px solid rgba(255,255,255,0.04); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+.footer-legal { font-family:var(--mono); font-size:0.53rem; letter-spacing:0.08em; color:var(--slate); text-transform:uppercase; line-height:1.8; }
+
+/* ─── SNAPSHOT EXAMPLE ────────────────────────────────────────── */
+.example { background:rgba(13,27,62,0.2); border-top:1px solid var(--border); }
+.example-grid { display:grid; grid-template-columns:1.1fr 0.9fr; gap:5rem; align-items:start; margin-top:3rem; }
+.example-scenario { background:rgba(13,27,62,0.6); border:1px solid rgba(201,168,76,0.15); padding:2.25rem; position:relative; }
+.example-scenario::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, var(--gold), rgba(201,168,76,0.15)); }
+.example-scenario-label { font-family:var(--mono); font-size:0.55rem; letter-spacing:0.28em; color:var(--gold); text-transform:uppercase; margin-bottom:0.85rem; }
+.example-scenario-title { font-family:var(--disp); font-size:1.15rem; font-weight:700; color:var(--white); margin-bottom:1rem; }
+.example-scenario-body { font-family:var(--body); font-size:0.92rem; color:var(--fog); line-height:1.8; margin-bottom:1.25rem; }
+.example-disclaimer { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.08em; color:var(--slate-lt); text-transform:none; padding-top:1rem; border-top:1px solid var(--border); font-style:italic; }
+.example-areas { }
+.example-areas-title { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.22em; color:var(--gold); text-transform:uppercase; margin-bottom:1.25rem; }
+.example-area { display:flex; gap:1rem; align-items:flex-start; padding:1.1rem 0; border-bottom:1px solid var(--border); }
+.example-area:last-child { border-bottom:none; }
+.example-area-dot { width:8px; height:8px; background:var(--gold); border-radius:50%; flex-shrink:0; margin-top:6px; }
+.example-area-body strong { display:block; font-family:var(--body); font-size:0.92rem; font-weight:600; color:var(--white); margin-bottom:0.2rem; }
+.example-area-body p { font-family:var(--body); font-size:0.83rem; color:var(--slate); line-height:1.6; }
+
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.reveal { opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay { transition-delay:0.12s; }
+.reveal-delay-2 { transition-delay:0.24s; }
+
+/* ─── RESPONSIVE ──────────────────────────────────────────────── */
+@media (max-width:960px) {
+  
+  
+  .ind-bar { display:none; }
+  
+  
+  .hero-inner, .problem-grid, .serve-grid, .snapshot-grid, .example-grid, .beyond-grid, .ind-grid, .creds-grid { grid-template-columns:1fr; }
+  .serve-grid { grid-template-columns:1fr 1fr; }
+  .section { padding:5rem 1.5rem; }
+  .hero-inner { padding:3.5rem 1.5rem; gap:3rem; }
+  .trust-strip, .ind-bar { padding:1rem 1.5rem; }
+  .trust-inner { flex-direction:column; align-items:flex-start; gap:0.75rem; }
+  .cta-section { padding:5rem 1.5rem; }
+  .cta-form { flex-direction:column; }
+  .cta-input { border-right:1px solid rgba(255,255,255,0.1); }
+  footer { padding:3rem 1.5rem; }
+  .footer-top { flex-direction:column; }
+  .footer-bottom { flex-direction:column; }
+}
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-mark">POS</div>
-      <span class="nav-wordmark">Practice<span>OS</span></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#modules">Modules</a></li>
-      <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" rel="noopener" class="nav-cta">Book a Demo</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,15,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,0.1);height:66px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 3rem;overflow:hidden;clip:rect(0,auto,66px,0);">
+  <a href="#" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:700;color:#FFFFFF;letter-spacing:-0.01em;white-space:nowrap;text-decoration:none;">Consilium <span style="color:#C9A84C;">Systems</span></a>
+  <ul style="display:flex;gap:2rem;list-style:none;margin:0;padding:0;align-items:center;height:66px;">
+    <li style="display:inline-flex;align-items:center;"><a href="#serve" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;">Who We Serve</a></li>
+    <li style="display:inline-flex;align-items:center;"><a href="#snapshot" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;">The Snapshot</a></li>
+    <li style="display:inline-flex;align-items:center;"><a href="#beyond" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;">Beyond the Snapshot</a></li>
+    <li style="display:inline-flex;align-items:center;"><a href="#about" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;">About</a></li>
+  </ul>
+  <div style="display:flex;justify-content:flex-end;">
+    <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#0A0F1E;background:#C9A84C;padding:0.6rem 1.5rem;text-decoration:none;white-space:nowrap;">Book a Discovery Call</a>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-glow-2"></div>
-    <div class="hero-inner">
-      <div class="hero-left">
-        <div class="hero-badge">
-          <div class="hero-badge-dot"></div>
-          Now accepting beta access
+
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-inner">
+    <div>
+
+      <div class="hero-category">Independent AI Advisory &amp; Systems Practice · Professional Services</div>
+
+      <h1 class="hero-h1">
+        Independent AI Efficiency<br>
+        &amp; Systems Advisory for<br>
+        <em>Regulated Professional<br>Services Firms.</em>
+      </h1>
+
+      <div class="hero-sectors">
+        <span class="hero-sector primary">Financial Planning</span>
+        <span class="hero-sector other">Accounting</span>
+        <span class="hero-sector other">Legal</span>
+        <span class="hero-sector other">Insurance</span>
+        <span class="hero-sector other">Wealth Management</span>
+        <span class="hero-sector other">Superannuation Advisory</span>
+      </div>
+
+      <p class="hero-sub">
+        Consilium Systems is designed for advisory practices operating under formal regulatory and professional obligations — financial planning, accounting, legal, insurance, wealth management, and superannuation — where AI adoption decisions carry genuine consequence.
+        <br><br>
+        Our structured starting point for firms seeking clarity before implementation: the <strong>AI Efficiency Snapshot.</strong>
+      </p>
+
+      <div class="hero-price-row">
+        <div class="hero-price">A$1,650 <sub style="white-space:nowrap;">GST inclusive</sub></div>
+        <div class="hero-price-pipe"></div>
+        <div class="hero-price-note">
+          AI Efficiency Snapshot<br>
+          No hidden costs · No ongoing commitment
         </div>
-        <h1 class="hero-h1">
-          Draft SOAs in<br /><em>minutes, not hours.</em>
-        </h1>
-        <p class="hero-sub">
-          PracticeOS is purpose-built for Australian financial planners. AI-powered SOA drafting, compliance monitoring, and practice management — in one platform.
+      </div>
+
+      <div class="hero-ctas">
+        <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" class="btn-gold">Book a Discovery Call →</a>
+        <a href="#snapshot" class="btn-text">See the Snapshot</a>
+      </div>
+    </div>
+
+    <!-- Snapshot card -->
+    <div class="snapshot-card">
+      <div class="sc-label">Structured Entry Engagement</div>
+      <div class="sc-title">AI Efficiency Snapshot</div>
+      <div class="sc-sub">The starting point — not the full service offering.</div>
+      <div class="sc-price">A$1,650 <span style="white-space:nowrap;">GST inclusive</span></div>
+      <div class="sc-gst">Fixed fee · No surprises</div>
+      <div class="sc-duration">3–5 Business Days · Written Report + Debrief</div>
+      <ul class="sc-list">
+        <li>Structured review of your firm's administrative workflows</li>
+        <li>Identification of tasks where AI tools may reduce time</li>
+        <li>Illustrative time-saving estimate using your cost assumptions</li>
+        <li>Written summary report — 3 to 5 pages, plain language</li>
+        <li>Debrief conversation to discuss findings and next steps</li>
+      </ul>
+      <div class="sc-entry-note">
+        <strong>The AI Efficiency Snapshot is a contained entry engagement.</strong>
+        Where findings indicate opportunity beyond this scope, Consilium Systems can discuss structured next steps — or refer to appropriate specialists where required.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-item">B.Bus (Finance) — University qualified</div>
+    <div class="trust-item">Dip. Financial Planning — Profession credentialled</div>
+    <div class="trust-item">ABN: 94 655 810 737</div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:1rem;">
+    <div class="trust-founding">Sydney-based · Serving firms Australia-wide</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem section" id="problem">
+  <div class="section-inner">
+    <div class="problem-grid">
+      <div class="reveal">
+        <div class="s-tag">The Challenge</div>
+        <h2 class="s-h2">Regulated professional firms face<br><em>a specific AI problem.</em></h2>
+        <p class="s-body">The AI market is saturated with tools, vendors, and implementation claims. For advisory practices operating under formal professional obligations, the question is not simply whether AI is useful. It is whether a given tool is appropriate for a specific workflow, within a specific professional context, at an acceptable level of risk.</p>
+        <br>
+        <p class="s-body">Guidance that genuinely understands how compliance-bound practices operate — and that carries no commercial interest in any particular platform — is precisely what most principals cannot find at an accessible entry point.</p>
+      </div>
+      <div class="pain-stack reveal reveal-delay">
+        <div class="pain-item">
+          <span class="pain-n">01</span>
+          <div class="pain-body">
+            <strong>Vendor-driven advice dominates the market</strong>
+            <p>Most AI guidance reaching professional firms comes from platform vendors with a commercial interest in adoption. Unconflicted, structured advice is genuinely scarce.</p>
+          </div>
+        </div>
+        <div class="pain-item">
+          <span class="pain-n">02</span>
+          <div class="pain-body">
+            <strong>High-trust regulated practices require sector knowledge</strong>
+            <p>Generic AI consultants lack working knowledge of financial planning workflows, accounting obligations, legal professional standards, or the specific administrative contexts of compliance-bound firms. Advice without that context is advice without value.</p>
+          </div>
+        </div>
+        <div class="pain-item">
+          <span class="pain-n">03</span>
+          <div class="pain-body">
+            <strong>Principals lack time to evaluate AI tools on their own</strong>
+            <p>Financial planning, accounting, and legal principals are capacity-constrained. Structured, time-bounded guidance removes a barrier that otherwise keeps most practices in a state of expensive inaction.</p>
+          </div>
+        </div>
+        <div class="pain-item">
+          <span class="pain-n">04</span>
+          <div class="pain-body">
+            <strong>AI governance is an emerging risk gap</strong>
+            <p>Firms adopting AI tools without structured governance are accumulating risk. ASIC and AFSL obligations increasingly require oversight of technology use in client-facing workflows — a gap many advisory practices have not yet addressed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section class="serve section" id="serve">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="s-tag">Who We Serve</div>
+      <h2 class="s-h2">Professional services<br><em>firms that need structured guidance.</em></h2>
+      <p class="s-body" style="margin-bottom:0;">Consilium Systems is designed for advisory practices operating under formal professional and regulatory obligations — where AI adoption decisions carry genuine consequence and where independent, structured guidance has real value.</p>
+    </div>
+    <div class="serve-grid reveal">
+      <div class="serve-card">
+        <div class="serve-name">Financial Planning</div>
+        <div class="serve-desc">AFSL holders and licensed advisers navigating SoA preparation, client communication, and compliance documentation workflows. Working knowledge of the regulatory environment underpins every engagement.</div>
+        <span class="serve-badge launch">Launch Focus · 2026</span>
+      </div>
+      <div class="serve-card" style="opacity:0.4;">
+        <div class="serve-name">Accounting Firms</div>
+        <div class="serve-desc">CPA, CA ANZ, and IPA member firms with administrative pressure across reconciliation, ATO correspondence, document processing, and client reporting workflows.</div>
+      </div>
+      <div class="serve-card" style="opacity:0.4;">
+        <div class="serve-name">Legal Practices</div>
+        <div class="serve-desc">Law firms and sole practitioners operating under professional obligations where document-heavy workflows — correspondence, research, file management — represent measurable time cost.</div>
+      </div>
+      <div class="serve-card" style="opacity:0.4;">
+        <div class="serve-name">Insurance Brokerages</div>
+        <div class="serve-desc">Licensed brokerages with client communication, policy administration, and renewal documentation workflows where AI tools are increasingly applicable.</div>
+      </div>
+      <div class="serve-card" style="opacity:0.4;">
+        <div class="serve-name">Wealth Management</div>
+        <div class="serve-desc">Portfolio reporting, client communication, research synthesis, and compliance documentation across boutique to mid-tier wealth management practices.</div>
+      </div>
+      <div class="serve-card" style="opacity:0.4;">
+        <div class="serve-name">Superannuation Advisory</div>
+        <div class="serve-desc">SMSF and superannuation advisory practices where member communication, documentation, and ATO correspondence generate consistent administrative load.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI EFFICIENCY SNAPSHOT -->
+<section class="snapshot section" id="snapshot">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="s-tag">Structured Entry Engagement</div>
+      <h2 class="s-h2">The AI Efficiency Snapshot.</h2>
+      <p class="s-body">A contained, observational engagement designed to identify where AI tools may reduce administrative time within your practice. The Snapshot is the starting point — not the full service offering.</p>
+    </div>
+
+    <div class="snapshot-grid">
+      <div class="snapshot-details reveal">
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Structured review of your firm's nominated day-to-day administrative workflows</span></div>
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Identification of specific tasks where publicly available AI tools appear likely to reduce time</span></div>
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Simple, illustrative time-saving estimate using your own cost assumptions — not engineered projections</span></div>
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Written summary report — 3 to 5 pages, plain language, sector-specific observations</span></div>
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Debrief conversation to discuss findings, answer questions, and identify potential next steps</span></div>
+        <div class="snap-row"><span class="snap-check">✓</span><span class="snap-text">Clear referral to appropriate specialists where findings extend beyond this engagement's scope</span></div>
+
+        <div class="snap-out-box">
+          <div class="snap-out-title">Outside the scope of this engagement</div>
+          <ul class="snap-out-list">
+            <li>Legal advice of any kind</li>
+            <li>Compliance advice or regulatory authority</li>
+            <li>AFSL or ASIC-related guidance for financial planning practices</li>
+            <li>Tax advice or Tax Practitioners Board regulatory guidance</li>
+            <li>AI tool implementation, configuration, or technical integration</li>
+            <li>Formal financial modelling or investment case preparation</li>
+            <li>Legal, compliance, tax, or regulatory advice of any kind</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="snapshot-left reveal reveal-delay">
+        <div class="snap-price-panel">
+          <div class="snap-price-label">AI Efficiency Snapshot · Fixed Fee</div>
+          <div class="snap-price-val">A$1,650 <span style="white-space:nowrap;">GST inclusive</span></div>
+          <div class="snap-price-sub">Fixed fee · No surprises · No ongoing commitment</div>
+          <div class="snap-price-detail">
+            Completed within 3 to 5 business days from initial conversation to report delivery. All engagements invoiced in full on confirmation. Delivery via in-person meeting or video call — written report provided digitally.
+          </div>
+          <div class="snap-price-detail" style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.06); font-style:italic; color:var(--slate-lt);">
+            If the Snapshot identifies no meaningful efficiency opportunity, that conclusion will be stated clearly.
+          </div>
+        </div>
+        <div class="snap-entry-label">
+          <strong>The Snapshot is the starting point.</strong>
+          Where findings identify meaningful opportunity, Consilium Systems can discuss structured next steps — including tool selection support, workflow design, or an ongoing advisory arrangement. These are introduced only where genuinely appropriate.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SNAPSHOT EXAMPLE -->
+<section class="example section" id="example">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="s-tag">Applied Thinking</div>
+      <h2 class="s-h2">What a Snapshot finding<br><em>might look like.</em></h2>
+      <p style="font-style:italic;color:#94A3B8;font-size:0.85rem;margin-bottom:1rem;">The following is a constructed illustration — not a real engagement. It is designed to show how the Snapshot's analysis is structured and what a written finding might contain.</p>
+    </div>
+
+    <div class="example-grid">
+      <div class="example-scenario reveal">
+        <div class="example-scenario-label">Illustrative Example · Financial Planning Practice</div>
+        <div class="example-scenario-title">Hypothetical Scenario</div>
+        <div class="example-scenario-body">
+          Consider a four-adviser financial planning practice with three support staff. In this illustration, a Snapshot workflow review identifies approximately six hours per week of repetitive administrative drafting across client correspondence and internal documentation tasks.
+          <br><br>
+          The Snapshot maps these workflows in detail, identifies two suitable AI-assisted drafting applications consistent with the firm's existing infrastructure, and provides a conservative time-saving estimate using the firm's own hourly cost assumptions.
+          <br><br>
+          The written report outlines specific workflow steps where AI tools could be applied, notes the boundaries of those applications, and recommends the firm seek specialist input before any implementation touching client-facing or compliance-sensitive documentation.
+        </div>
+        <div class="example-disclaimer">Constructed illustration only. Not based on a real engagement. Actual findings depend on firm size, workflows, and existing systems — and will be stated as clearly as this example where no meaningful opportunity exists.</div>
+      </div>
+
+      <div class="example-areas reveal reveal-delay">
+        <div class="example-areas-title">Typical insight areas across engagements</div>
+        <div class="example-area">
+          <div class="example-area-dot"></div>
+          <div class="example-area-body">
+            <strong>Time spent on repetitive drafting tasks</strong>
+            <p>Quantified using the firm's own cost assumptions — not engineered projections — to produce a conservative, credible time-saving estimate.</p>
+          </div>
+        </div>
+        <div class="example-area">
+          <div class="example-area-dot"></div>
+          <div class="example-area-body">
+            <strong>Suitable AI tools matched to existing workflows</strong>
+            <p>Publicly available AI tools identified and assessed for fit against the firm's existing infrastructure and regulatory context.</p>
+          </div>
+        </div>
+        <div class="example-area">
+          <div class="example-area-dot"></div>
+          <div class="example-area-body">
+            <strong>Workflow steps where AI is and isn't appropriate</strong>
+            <p>Clear boundaries noted in the written report — including where specialist input should be sought before any implementation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEYOND THE SNAPSHOT -->
+<section class="beyond section" id="beyond">
+  <div class="section-inner">
+    <div class="beyond-intro reveal">
+      <div class="s-tag">Beyond the Snapshot</div>
+      <h2 class="s-h2">Structured services<br><em>for firms ready to act.</em></h2>
+      <p class="s-body">Where a Snapshot engagement identifies clear opportunity, Consilium Systems can provide structured support across a defined set of services — delivered where appropriate and within clearly defined scope. These are advisory and implementation support services, not enterprise software engineering.</p>
+      <p class="s-body" style="margin-top:1rem;">Each service is a separate, independently scoped and priced engagement — agreed in advance, introduced only where findings genuinely warrant them.</p>
+    </div>
+
+    <div class="beyond-grid reveal">
+      <div class="beyond-card">
+        <div class="bc-num">01</div>
+        <div class="bc-title">AI Tool Selection &amp; Structured Implementation Support</div>
+        <div class="bc-desc">Evaluation of publicly available AI tools relevant to your firm's specific workflows. Selection guidance, configuration support, and practical configuration assistance — without commercial bias toward any platform.</div>
+        <div class="bc-tag">Tool-agnostic · Workflow-specific · Structured configuration</div>
+      </div>
+      <div class="beyond-card">
+        <div class="bc-num">02</div>
+        <div class="bc-title">Workflow Automation Design</div>
+        <div class="bc-desc">Structured design of AI-assisted workflow processes for nominated administrative tasks — document drafting, correspondence management, data entry reduction, and routine communication. Designed for practical adoption, not theoretical transformation.</div>
+        <div class="bc-tag">Practical · Documented · Firm-specific</div>
+      </div>
+      <div class="beyond-card">
+        <div class="bc-num">03</div>
+        <div class="bc-title">Custom Internal GPT Assistants</div>
+        <div class="bc-desc">Design and configuration of a GPT assistant trained on the firm's own business information and knowledge base — processes, templates, and internal terminology. Built for the firm's specific context, not generic AI capability.</div>
+        <div class="bc-tag">Firm-specific · Knowledge-based · Internal use</div>
+      </div>
+      <div class="beyond-card" style="opacity:0.5;">
+        <div class="bc-num">04</div>
+        <div class="bc-title">AI Governance &amp; Quarterly Review Retainers <span class="serve-badge expand" style="margin-left:0.75rem;vertical-align:middle;">Coming Soon</span></div>
+        <div class="bc-desc">Ongoing advisory support for firms that have adopted AI tools and require structured oversight — quarterly workflow reviews, governance documentation, tool performance assessment, and policy guidance aligned to regulatory expectations.</div>
+        <div class="bc-tag">Ongoing · Structured · Governance-aligned</div>
+      </div>
+    </div>
+
+    <div class="beyond-scope-note reveal">
+      All services beyond the Snapshot are delivered within clearly defined scope, agreed in advance, and introduced only where findings genuinely warrant them. These services focus on structured advisory, workflow design, and practical tool configuration. Consilium Systems does not position itself as an enterprise AI engineering firm.
+    </div>
+  </div>
+</section>
+
+<!-- INDEPENDENCE -->
+<section class="independence section" id="independence">
+  <div class="section-inner">
+    <div class="ind-grid">
+      <div class="reveal">
+        <div class="s-tag">Structural Independence</div>
+        <h2 class="s-h2">Why independence<br><em>is the foundation.</em></h2>
+        <div class="ind-statement">
+          "Consilium Systems is structurally independent. No undisclosed platform incentives. No undisclosed referral arrangements. No undisclosed vendor affiliations."
+        </div>
+
+      </div>
+
+      <div class="ind-pillars reveal reveal-delay">
+        <div class="ind-pillar">
+          <div class="ind-pillar-body">
+            <strong>No Undisclosed Platform Incentives</strong>
+            <p>Consilium Systems does not receive undisclosed payments, commissions, or benefits from AI tool providers or software vendors. Any commercial relationship would be disclosed to clients in advance.</p>
+          </div>
+        </div>
+        <div class="ind-pillar">
+          <div class="ind-pillar-body">
+            <strong>No Undisclosed Referral Arrangements</strong>
+            <p>There are no undisclosed referral fee arrangements with any technology provider, implementation partner, or advisory firm. Where Consilium Systems refers a client to a specialist, it is because the specialist is appropriate. Any commercial arrangement influencing a referral would be disclosed.</p>
+          </div>
+        </div>
+        <div class="ind-pillar">
+          <div class="ind-pillar-body">
+            <strong>No Undisclosed Vendor Affiliations</strong>
+            <p>Consilium Systems has no undisclosed affiliate, partnership, or co-marketing relationship with any AI platform, software company, or technology vendor. Transparency is a structural commitment, not a preference.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-style:italic;color:#94A3B8;font-size:0.88rem;margin-top:2rem;text-align:center;">Results depend on firm size, workflow structure, and existing systems.</p>
+  </div>
+</section>
+
+<!-- CREDENTIALS / ABOUT -->
+<section class="creds section" id="about">
+  <div class="section-inner">
+    <div class="creds-grid">
+      <div class="reveal">
+        <div class="s-tag">About Consilium Systems</div>
+        <h2 class="s-h2">Built for professional<br><em>services firms.</em></h2>
+
+        <p class="cred-identity">
+          <strong>Consilium Systems is an AI advisory and systems practice focused on professional services firms.</strong> The practice provides structured guidance on where AI tools can reduce administrative time — and, where appropriate, support for tool selection, workflow design, and practical configuration.
         </p>
-        <div class="hero-actions">
-          <a href="#" onclick="openBetaModal(); return false;" class="btn-gold">
-            Request Beta Access
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" rel="noopener" class="btn-outline">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7.5l1.5 1.5 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Book a Demo
-          </a>
-        </div>
-        <div class="hero-proof">
-          <div class="hero-proof-item">
-            <div class="hero-proof-num">6</div>
-            <div class="hero-proof-label">SOA sections drafted<br/>in minutes</div>
-          </div>
-          <div class="hero-proof-divider"></div>
-          <div class="hero-proof-item">
-            <div class="hero-proof-num">4</div>
-            <div class="hero-proof-label">Practice modules<br/>in one platform</div>
-          </div>
-          <div class="hero-proof-divider"></div>
-          <div class="hero-proof-item">
-            <div class="hero-proof-num">AU</div>
-            <div class="hero-proof-label">Built for Australian<br/>AFSL compliance</div>
-          </div>
+<p class="cred-identity">The practice applies structured commercial discipline to AI adoption within compliance-bound environments.</p>
+
+        <div class="cred-future">
+          Current focus: Financial Planning practices
         </div>
       </div>
 
-      <!-- App preview mockup -->
-      <div class="hero-preview">
-        <div class="hero-preview-card">
-          <div class="preview-topbar">
-            <div class="preview-dots">
-              <div class="preview-dot" style="background:#FF5F57"></div>
-              <div class="preview-dot" style="background:#FFBD2E"></div>
-              <div class="preview-dot" style="background:#28CA41"></div>
-            </div>
-            <div class="preview-url">practiceos.consiliumsystems.com.au</div>
-          </div>
-          <div class="preview-body">
-            <div class="preview-sidebar">
-              <div style="font-size:0.58rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;padding:0 0.6rem;">MODULES</div>
-              <div class="preview-sidebar-item active">📄 Virtual Paraplanner</div>
-              <div class="preview-sidebar-item">💰 Practice Finance</div>
-              <div class="preview-sidebar-item">⚖️ Compliance Hub</div>
-              <div class="preview-sidebar-item">🏢 Practice Operations</div>
-              <div style="margin-top:0.75rem;font-size:0.58rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;padding:0 0.6rem;">SOA SECTIONS</div>
-              <div class="preview-sidebar-item active">📋 Executive Summary</div>
-              <div class="preview-sidebar-item">🔍 Fact Find</div>
-              <div class="preview-sidebar-item">📊 Risk Profile</div>
-              <div class="preview-sidebar-item">⚖️ Strategy Comparison</div>
-            </div>
-            <div class="preview-content">
-              <div class="preview-section-label">Executive Summary — Draft Ready</div>
-              <div class="preview-line gold"></div>
-              <div class="preview-line w90"></div>
-              <div class="preview-line w80"></div>
-              <div class="preview-line w65"></div>
-              <div style="height:0.6rem"></div>
-              <div class="preview-line w90"></div>
-              <div class="preview-line w80"></div>
-              <div class="preview-line w50"></div>
-              <div style="height:0.6rem"></div>
-              <div class="preview-line w65"></div>
-              <div class="preview-line w80"></div>
-              <div class="preview-tag">
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#4ade80"/></svg>
-                Draft Complete
-              </div>
+      <div class="cred-list reveal reveal-delay">
+        <div class="cred-item">
+          <div class="cred-item-header">
+            <div class="cred-title-block">
+              <strong>Bachelor of Business — Finance</strong>
+              <em>University qualified · Relevant across all sectors</em>
             </div>
           </div>
+          <div class="cred-body">Foundational understanding of how advisory practices allocate time, where cost pressure sits, and the commercial context in which efficiency improvements carry genuine value.</div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- PROBLEM STRIP -->
-  <div class="problem-strip">
-    <div class="problem-inner">
-      <div class="problem-item reveal">
-        <div class="problem-icon">⏱️</div>
-        <div class="problem-text">
-          <strong>SOAs take too long</strong>
-          <p>Manual drafting across six sections costs advisers 4–8 hours per client — time that doesn't scale.</p>
+        <div class="cred-item">
+          <div class="cred-item-header">
+            <div class="cred-title-block">
+              <strong>Diploma of Financial Planning</strong>
+              <em>Profession credentialled · Primary credential for FP sector</em>
+            </div>
+          </div>
+          <div class="cred-body">Working knowledge of the financial planning profession — ASIC and AFSL obligations, how advisers structure client work, and SoA preparation workflows.</div>
         </div>
-      </div>
-      <div class="problem-item reveal" style="transition-delay:0.1s">
-        <div class="problem-icon">⚠️</div>
-        <div class="problem-text">
-          <strong>Compliance risk is constant</strong>
-          <p>AFSL obligations, Best Interests Duty, and RG175 requirements demand precision on every document.</p>
-        </div>
-      </div>
-      <div class="problem-item reveal" style="transition-delay:0.2s">
-        <div class="problem-icon">🔀</div>
-        <div class="problem-text">
-          <strong>Practice management is fragmented</strong>
-          <p>Compliance, client reviews, and financial reporting live in separate tools — nothing talks to each other.</p>
+
+        <div class="cred-item">
+          <div class="cred-item-header">
+            <div class="cred-title-block">
+              <strong>Applied AI — Professional Services Focus</strong>
+              <em>Hands-on practitioner · Workflow-first approach</em>
+            </div>
+          </div>
+          <div class="cred-body">Hands-on experience applying AI tools to professional services workflows — correspondence drafting, document summarisation, and structured workflow design. Practical application, not theoretical familiarity.</div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- MODULES -->
-  <section class="section" id="modules">
-    <div class="section-inner">
-      <div class="reveal">
-        <div class="section-label">What's inside</div>
-        <h2 class="section-h2">Four modules.<br/>One practice platform.</h2>
-        <p class="section-sub">Each module is purpose-built for Australian financial planning practices — and they're designed to work together.</p>
-      </div>
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <div class="s-tag" style="justify-content:center;">Get Started</div>
+    <h2 class="cta-h2">
+      Start with a free<br>
+      <em>discovery conversation.</em>
+    </h2>
+    <p class="cta-body">
+      A 30-minute conversation to understand your firm and confirm whether the AI Efficiency Snapshot is the right starting point. No obligation. If no meaningful efficiency opportunity is identified, that conclusion will be stated clearly.</p>
 
-      <div class="modules-grid">
-        <div class="module-card featured reveal">
-          <div class="module-icon" style="background:#EBF2FF;">📄</div>
-          <div class="module-badge">⭐ Flagship Module</div>
-          <div class="module-name">Virtual Paraplanner</div>
-          <p class="module-desc">Enter client data once. Generate all six SOA sections — Executive Summary, Fact Find, Risk Profile, Strategy Comparison, Recommendations, and Compliance Notes — in minutes, not hours.</p>
-          <ul class="module-features">
-            <li>AI drafts all 6 SOA sections simultaneously</li>
-            <li>Smart data extraction from meeting notes or PDF</li>
-            <li>Built-in compliance check against AFSL obligations</li>
-            <li>Export to Word or PDF instantly</li>
-            <li>Version history with one-click restore</li>
-          </ul>
-        </div>
-
-        <div class="module-card reveal" style="transition-delay:0.1s">
-          <div class="module-icon" style="background:#ECFDF5;">⚖️</div>
-          <div class="module-badge">Compliance</div>
-          <div class="module-name">Compliance Hub</div>
-          <p class="module-desc">Monitor AFSL obligations across your entire client base. Track FDS dates, fee consent, Best Interests Duty status, and review schedules in one place.</p>
-          <ul class="module-features">
-            <li>Client-level compliance status dashboard</li>
-            <li>FDS and fee consent deadline tracking</li>
-            <li>BID and licensee obligation monitoring</li>
-            <li>Automated overdue and upcoming alerts</li>
-          </ul>
-        </div>
-
-        <div class="module-card reveal" style="transition-delay:0.15s">
-          <div class="module-icon" style="background:#FFF7ED;">💰</div>
-          <div class="module-badge">Financial</div>
-          <div class="module-name">Practice Finance</div>
-          <p class="module-desc">Understand your practice's financial health. Cash flow modelling, revenue per client, margin analysis, and pricing benchmarks tailored to advice practices.</p>
-          <ul class="module-features">
-            <li>Monthly revenue and cost snapshot</li>
-            <li>Profit margin and pricing score</li>
-            <li>Revenue per client benchmarking</li>
-            <li>Hourly rate and capacity analysis</li>
-          </ul>
-        </div>
-
-        <div class="module-card reveal" style="transition-delay:0.2s">
-          <div class="module-icon" style="background:#F5F3FF;">🏢</div>
-          <div class="module-badge">Operations</div>
-          <div class="module-name">Practice Operations</div>
-          <p class="module-desc">Keep client review cycles on track and your team's capacity visible. Track workflow status across your book and surface bottlenecks before they become problems.</p>
-          <ul class="module-features">
-            <li>Client review schedule tracker</li>
-            <li>Workflow and engagement status monitoring</li>
-            <li>Team capacity visibility</li>
-            <li>Review pipeline and upcoming tasks</li>
-          </ul>
-        </div>
-      </div>
+    <div class="cta-price-band">
+      <span>AI Efficiency Snapshot</span>
+      <div></div>
+      <strong>A$1,650 GST Inclusive</strong>
+      <div></div>
+      <span>No surprises</span>
     </div>
-  </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="section" id="how-it-works">
-    <div class="section-inner">
-      <div class="reveal">
-        <div class="section-label">How it works</div>
-        <h2 class="section-h2">From fact-find to<br/>SOA draft in three steps.</h2>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card reveal">
-          <div class="step-num">01</div>
-          <div class="step-title">Enter client data</div>
-          <p class="step-desc">Paste raw meeting notes, upload a fact-find PDF, or fill in fields manually. PracticeOS extracts and structures the data automatically.</p>
-        </div>
-        <div class="step-card reveal" style="transition-delay:0.1s">
-          <div class="step-num">02</div>
-          <div class="step-title">Generate your SOA</div>
-          <p class="step-desc">One click drafts all six SOA sections simultaneously — Executive Summary through to Compliance Notes — with Australian regulatory standards built in.</p>
-        </div>
-        <div class="step-card reveal" style="transition-delay:0.2s">
-          <div class="step-num">03</div>
-          <div class="step-title">Review, check, export</div>
-          <p class="step-desc">Run an automated compliance check against AFSL obligations and Best Interests Duty. Edit any section, save versions, then export to Word or PDF.</p>
-        </div>
-      </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+      <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" class="btn-gold" style="font-size:0.75rem; padding:1.1rem 2.75rem; letter-spacing:0.12em;">
+        Book a Discovery Call →
+      </a>
+      <p style="font-family:var(--mono); font-size:0.58rem; letter-spacing:0.12em; color:var(--slate); text-transform:uppercase;">30 minutes · No obligation · Video or in-person · Sydney-based · Serving firms Australia-wide</p>
     </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="section pricing-section" id="pricing">
-    <div class="section-inner">
-      <div class="reveal">
-        <div class="section-label">Pricing</div>
-        <h2 class="section-h2">Simple, transparent pricing.</h2>
-        <p class="section-sub">Beta access is free. Post-beta pricing is designed for practices of all sizes — not enterprise licensing fees.</p>
-      </div>
-
-      <div class="pricing-grid">
-        <div class="pricing-card reveal">
-          <div class="pricing-tier">Beta Access</div>
-          <div class="pricing-price">
-            <span class="pricing-amount">Free</span>
-          </div>
-          <p class="pricing-note">Limited to 20 full SOA generations during beta. No credit card required.</p>
-          <ul class="pricing-features">
-            <li><span class="pricing-check">✓</span> Virtual Paraplanner — full access</li>
-            <li><span class="pricing-check">✓</span> All 6 SOA sections</li>
-            <li><span class="pricing-check">✓</span> Compliance check tool</li>
-            <li><span class="pricing-check">✓</span> Word and PDF export</li>
-            <li><span class="pricing-check">✓</span> Version history</li>
-            <li><span class="pricing-check">✓</span> Compliance Hub <span class="pricing-soon">Beta</span></li>
-            <li><span class="pricing-check">✓</span> Practice Finance <span class="pricing-soon">Beta</span></li>
-            <li><span class="pricing-check">✓</span> Practice Operations <span class="pricing-soon">Beta</span></li>
-          </ul>
-          <a href="#" onclick="openBetaModal(); return false;" class="btn-gold" style="width:100%;justify-content:center;display:flex;">Request Beta Access</a>
-        </div>
-
-        <div class="pricing-card featured reveal" style="transition-delay:0.1s">
-          <div class="pricing-featured-badge">Post-Beta Pricing</div>
-          <div class="pricing-tier">Practice Plan</div>
-          <div class="pricing-price">
-            <span class="pricing-currency">A$</span>
-            <span class="pricing-amount">299</span>
-            <span class="pricing-period">/month</span>
-          </div>
-          <p class="pricing-note">Indicative pricing. Founding beta members receive preferred rates when we launch commercially.</p>
-          <ul class="pricing-features">
-            <li><span class="pricing-check">✓</span> Everything in Beta</li>
-            <li><span class="pricing-check">✓</span> Unlimited SOA generations</li>
-            <li><span class="pricing-check">✓</span> Multi-adviser access</li>
-            <li><span class="pricing-check">✓</span> Priority support</li>
-            <li><span class="pricing-check">✓</span> Founding member pricing lock</li>
-            <li><span class="pricing-check">✓</span> Direct input on product roadmap</li>
-          </ul>
-          <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" rel="noopener" class="btn-outline" style="width:100%;justify-content:center;display:flex;border-color:var(--border);color:var(--sub);">Book a Demo Call</a>
-        </div>
-      </div>
-
-      <div class="pricing-beta-note reveal">
-        <strong>Beta access is free with no commitment.</strong> We're working directly with a small number of practices during beta to refine PracticeOS before commercial launch. Founding members receive preferred pricing and direct input on the product roadmap.
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section" id="request-access">
-    <div class="cta-glow"></div>
-    <div class="cta-inner">
-      <div class="section-label" style="color:var(--gold);text-align:center;">Get started</div>
-      <h2 class="cta-h2">Ready to reclaim<br/><em>hours every week?</em></h2>
-      <p class="cta-sub">Join the PracticeOS beta. Free access, no commitment. Built for Australian financial planners.</p>
-      <div class="cta-actions">
-        <a href="#" onclick="openBetaModal(); return false;" class="btn-gold" style="font-size:0.95rem;">
-          Request Beta Access
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" rel="noopener" class="btn-outline" style="font-size:0.95rem;padding:1rem 2rem;">
-          Book a 30-min Demo
-        </a>
-      </div>
-      <p class="cta-footnote">No credit card. No lock-in. Onboarding handled personally.</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-left">
-      <div class="footer-brand">Practice<span>OS</span></div>
-      <div style="color:rgba(255,255,255,0.1);font-size:0.8rem;">·</div>
-      <div style="font-size:0.72rem;color:rgba(255,255,255,0.2);">A product of Consilium Systems</div>
-    </div>
-    <div class="footer-right">
-      ABN 94 655 810 737 · <a href="https://consiliumsystems.com.au" target="_blank">consiliumsystems.com.au</a><br/>
-      <span style="color:rgba(255,255,255,0.12);">For use by licensed financial advisers only. AI-generated content requires adviser review before client use.</span>
-    </div>
-  </footer>
-
-  <!-- Beta Access Modal -->
-  <div id="betaModal">
-    <div style="background:#fff; border-radius:12px; padding:2.5rem; width:100%; max-width:480px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <button onclick="closeBetaModal()" style="position:absolute; top:1rem; right:1.25rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#637488; line-height:1;">&#x2715;</button>
-      <h2 style="font-family:'DM Serif Display',serif; color:#0B1F3A; margin-bottom:0.4rem; font-size:1.5rem;">Request Beta Access</h2>
-      <p style="color:#637488; margin-bottom:1.5rem; font-size:0.9rem;">We're onboarding a small group of Australian financial planning practices. We'll be in touch within 24 hours.</p>
-      <div id="betaFormMsg" style="display:none; background:#F5EDD6; border-radius:8px; padding:0.85rem 1rem; margin-bottom:1rem; color:#0B1F3A; font-size:0.88rem;"></div>
-      <div style="display:flex; flex-direction:column; gap:0.85rem;">
-        <div>
-          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Full Name *</label>
-          <input id="betaName" type="text" placeholder="Jane Smith" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
-        </div>
-        <div>
-          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Email Address *</label>
-          <input id="betaEmail" type="email" placeholder="jane@yourpractice.com.au" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
-        </div>
-        <div>
-          <label style="display:block; font-size:0.82rem; font-weight:600; color:#1C2B3A; margin-bottom:0.35rem;">Practice Name *</label>
-          <input id="betaPractice" type="text" placeholder="Smith Financial Planning" style="width:100%; padding:0.7rem 1rem; border:1.5px solid #DDE3EC; border-radius:8px; font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" />
-        </div>
-        <button onclick="submitBetaForm()" id="betaSubmitBtn" style="background:#C9A84C; color:#fff; border:none; padding:0.85rem; border-radius:8px; font-size:0.95rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:0.25rem; letter-spacing:0.01em;">Send Request</button>
-      </div>
-    </div>
+    <div class="cta-note">No undisclosed vendor affiliations · 2026</div>
   </div>
+</section>
 
-  <script>
-    // ── Beta Access Modal ──
-    function openBetaModal() {
-      const modal = document.getElementById('betaModal');
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Consilium <span>Systems</span></div>
+      <div class="footer-tagline">AI Advisory & Systems Practice · Professional Services</div>
+      <div style="margin-top:0.75rem;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;color:var(--slate);text-transform:uppercase;">
+        <span style="color:#C9A84C; font-weight:600;">info&#64;consiliumsystems&#46;com&#46;au</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">© 2026 Consilium Systems · Sydney, New South Wales, Australia · ABN: 94 655 810 737 · B.Bus (Finance) · Dip. Financial Planning</div>
+    <div class="footer-legal">This website does not constitute legal, financial, compliance, or regulatory advice. · <a href="terms.html" style="color:var(--slate);text-decoration:underline;">Terms of Use</a> · <a href="privacy.html" style="color:var(--slate);text-decoration:underline;">Privacy Policy</a></div>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
     }
-    function closeBetaModal() {
-      document.getElementById('betaModal').style.display = 'none';
-      document.body.style.overflow = '';
-      document.getElementById('betaFormMsg').style.display = 'none';
-      ['betaName','betaEmail','betaPractice'].forEach(id => document.getElementById(id).value = '');
-      const btn = document.getElementById('betaSubmitBtn');
-      btn.textContent = 'Send Request';
-      btn.disabled = false;
-    }
-    document.getElementById('betaModal').addEventListener('click', function(e) {
-      if (e.target === this) closeBetaModal();
-    });
-    function submitBetaForm() {
-      const name = document.getElementById('betaName').value.trim();
-      const email = document.getElementById('betaEmail').value.trim();
-      const practice = document.getElementById('betaPractice').value.trim();
-      const msg = document.getElementById('betaFormMsg');
-      msg.style.display = 'none';
-      if (!name || !email || !practice) {
-        msg.style.display = 'block';
-        msg.textContent = 'Please complete all fields before submitting.';
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        msg.style.display = 'block';
-        msg.textContent = 'Please enter a valid email address.';
-        return;
-      }
-      const btn = document.getElementById('betaSubmitBtn');
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
-      fetch('https://formspree.io/f/xqewdwkb', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email, practice: practice })
-      })
-      .then(function(response) {
-        if (response.ok) {
-          msg.style.display = 'block';
-          msg.textContent = '✓ Request received! We\'ll be in touch within 24 hours.';
-          ['betaName','betaEmail','betaPractice'].forEach(id => document.getElementById(id).value = '');
-          btn.textContent = 'Sent!';
-        } else {
-          throw new Error('Server error');
-        }
-      })
-      .catch(function() {
-        msg.style.display = 'block';
-        msg.textContent = 'Something went wrong. Please email us directly at info@consiliumsystems.com.au';
-        btn.textContent = 'Send Request';
-        btn.disabled = false;
-      });
-    }
-
-    // ── Scroll reveal ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ── Smooth scroll for anchor links ──
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href === '#') return;
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // ── Nav scroll effect ──
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        nav.style.borderBottomColor = 'rgba(201,168,76,0.2)';
-      } else {
-        nav.style.borderBottomColor = 'rgba(201,168,76,0.15)';
-      }
-    });
-  </script>
+  });
+}, { threshold:0.07 });
+reveals.forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
