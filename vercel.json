@@ -1,9 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/practiceos/index.html",
-      "has": [{ "type": "host", "value": "practiceos.consiliumsystems.com.au" }]
-    }
+    { "source": "/(.*)", "destination": "/practiceos/index.html" }
   ]
 }
