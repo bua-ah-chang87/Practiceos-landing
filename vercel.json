@@ -1,7 +1,8 @@
 {
-  "routes": [
-    { "src": "/terms", "dest": "/terms.html" },
-    { "src": "/privacy", "dest": "/privacy.html" },
-    { "src": "/(.*)", "dest": "/practiceos/index.html" }
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/terms", "destination": "/practiceos/terms.html" },
+    { "source": "/privacy", "destination": "/practiceos/privacy.html" },
+    { "source": "/((?!terms|privacy).*)", "destination": "/practiceos/index.html" }
   ]
 }
