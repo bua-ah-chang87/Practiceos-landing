@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — PracticeOS by Consilium Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --charcoal:  #0A1F3C;
+  --dark:      #071528;
+  --mid:       #2A4A7A;
+  --muted:     #5A7AAA;
+  --border:    #D0DCF0;
+  --cream:     #F4F7FC;
+  --warm:      #EBF0F9;
+  --white:     #FFFFFF;
+  --gold:      #C9A84C;
+  --gold-lt:   #E8C97A;
+  --gold-pale: #FDF6E3;
+  --navy:      #0A1F3C;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);overflow-x:hidden;line-height:1.65;}
+a{text-decoration:none;color:inherit;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  padding:0 5%;height:76px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(244,247,252,0.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-mark{width:42px;height:42px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--gold-pale);border:1.5px solid rgba(201,168,76,.5);}
+.logo-mark-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);}
+.logo-words{display:flex;flex-direction:column;gap:2px;}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--charcoal);letter-spacing:.02em;line-height:1;}
+.logo-rule{height:1.5px;background:var(--gold);}
+.logo-sub{font-size:8px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
+.nav-cta{font-size:12px;font-weight:600;letter-spacing:.08em;padding:10px 22px;border-radius:3px;border:1.5px solid var(--gold);background:var(--gold);color:var(--navy);transition:background .2s;}
+.nav-cta:hover{background:var(--gold-lt);}
+
+/* ── HERO ── */
+.page-hero{padding:140px 5% 72px;background:var(--navy);position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,48,110,.6) 0%,rgba(7,21,40,.8) 100%);}
+.page-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:80px 80px;}
+.page-hero-inner{position:relative;z-index:2;max-width:860px;}
+.page-hero-tag{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.page-hero-tag::before{content:'';width:24px;height:1px;background:var(--gold);}
+.page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.02em;margin-bottom:16px;}
+.page-hero h1 em{font-style:italic;color:var(--gold);font-weight:300;}
+.page-hero-meta{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;}
+.page-hero-product{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);padding:5px 14px;border-radius:20px;margin-bottom:20px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+
+/* ── CONTENT ── */
+.content-wrap{max-width:860px;margin:0 auto;padding:80px 5%;}
+
+.policy-notice{background:var(--gold-pale);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:24px 28px;margin-bottom:52px;border-left:4px solid var(--gold);}
+.policy-notice p{font-size:14px;font-weight:400;color:var(--charcoal);line-height:1.75;margin-bottom:8px;}
+.policy-notice p:last-child{margin-bottom:0;}
+.policy-notice strong{font-weight:600;}
+
+.policy-section{margin-bottom:44px;}
+.policy-section-num{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.policy-section-num::after{content:'';flex:1;height:1px;background:var(--border);}
+.policy-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);font-weight:700;color:var(--charcoal);line-height:1.15;margin-bottom:14px;}
+.policy-section p{font-size:15px;font-weight:300;color:var(--mid);line-height:1.85;margin-bottom:12px;}
+.policy-section ul{list-style:none;margin-bottom:12px;}
+.policy-section ul li{font-size:15px;font-weight:300;color:var(--mid);line-height:1.75;padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start;}
+.policy-section ul li:last-child{border-bottom:none;}
+.policy-section ul li::before{content:'→';color:var(--gold);font-size:11px;flex-shrink:0;margin-top:3px;}
+.policy-section a{color:var(--gold);font-weight:500;transition:opacity .2s;}
+.policy-section a:hover{opacity:.75;}
+
+.highlight-box{background:var(--gold-pale);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:20px 24px;margin:16px 0;border-left:4px solid var(--gold);}
+.highlight-box p{font-size:14px;font-weight:400;color:var(--charcoal);line-height:1.75;margin:0;}
+.highlight-box strong{font-weight:600;}
+
+.contact-box{background:var(--navy);border-radius:8px;padding:36px;position:relative;overflow:hidden;margin-top:52px;}
+.contact-box::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.15) 0%,transparent 70%);}
+.contact-box h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:12px;}
+.contact-box p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:20px;}
+.contact-box a.btn{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:13px 28px;border-radius:3px;transition:background .2s;}
+.contact-box a.btn:hover{background:var(--gold-lt);}
+
+/* ── FOOTER ── */
+footer{background:linear-gradient(135deg,#071528 0%,#0A1F3C 100%);padding:48px 5% 28px;border-top:2px solid var(--gold);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#fff;}
+.footer-brand span{color:var(--gold);}
+.footer-legal{font-size:10px;color:rgba(255,255,255,.4);line-height:1.7;}
+.footer-legal a{color:rgba(255,255,255,.4);text-decoration:underline;transition:color .2s;}
+.footer-legal a:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://practiceos.consiliumsystems.com.au" class="logo">
+    <div class="logo-mark"><span class="logo-mark-text">POS</span></div>
+    <div class="logo-words">
+      <span class="logo-name">PracticeOS</span>
+      <div class="logo-rule"></div>
+      <span class="logo-sub">by Consilium Systems</span>
+    </div>
+  </a>
+  <a href="https://calendly.com/ratu-mara-consiliumsystems/30min" target="_blank" class="nav-cta">Book a Demo →</a>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <a href="https://practiceos.consiliumsystems.com.au" style="display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:28px;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">← Back to PracticeOS</a>
+    <div class="page-hero-product">PracticeOS · Legal</div>
+    <h1>Terms of <em>Service</em></h1>
+    <div class="page-hero-meta">Last updated: April 2026 · PracticeOS by Consilium Systems · Sydney, New South Wales, Australia</div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+  <div class="policy-notice">
+    <p><strong>Important Notice:</strong> PracticeOS is an AI-assisted drafting and workflow tool. It does not provide legal, financial, compliance, regulatory, or tax advice.</p>
+    <p>All outputs generated by PracticeOS must be reviewed by a qualified, licensed financial adviser before use with clients. You remain solely responsible for the accuracy, appropriateness, and compliance of all documents provided to your clients under your AFSL obligations.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">01</div>
+    <h2>Acceptance of Terms</h2>
+    <p>By accessing or using PracticeOS (practiceos.consiliumsystems.com.au), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the platform.</p>
+    <p>These Terms of Service apply to all users of PracticeOS, including users accessing the platform during the beta period on a complimentary basis.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">02</div>
+    <h2>About PracticeOS</h2>
+    <p>PracticeOS is an AI-powered practice management platform built by Consilium Systems (ABN: 94 655 810 737) for Australian financial planning practices. It provides AI-assisted tools across four modules: Virtual Paraplanner, Virtual CFO, Virtual Compliance Officer, and Virtual Practice Manager.</p>
+    <p>PracticeOS is powered by Anthropic's Claude API and is designed for use by licensed financial advisers operating under an Australian Financial Services Licence (AFSL).</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">03</div>
+    <h2>Eligibility and Authorised Use</h2>
+    <p>PracticeOS is designed for use by:</p>
+    <ul>
+      <li>Licensed financial advisers holding or operating under an Australian Financial Services Licence (AFSL)</li>
+      <li>Authorised representatives of AFSL holders</li>
+      <li>Practice staff supporting licensed advisers in an administrative capacity</li>
+    </ul>
+    <p>By using PracticeOS, you confirm that you are authorised to use the platform in connection with your professional role and that you will use it in accordance with your AFSL obligations and applicable law.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">04</div>
+    <h2>No Professional Advice</h2>
+    <p>PracticeOS does not provide and must not be relied upon as:</p>
+    <ul>
+      <li>Legal advice or legal services of any kind</li>
+      <li>Financial product advice as defined under the Corporations Act 2001 (Cth)</li>
+      <li>Compliance or regulatory advice</li>
+      <li>Tax advice or accounting services</li>
+      <li>Any other form of licensed professional advice</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>Adviser responsibility:</strong> All AI-generated outputs — including SOA drafts, compliance documents, and financial summaries — are starting points only. They must be reviewed, verified, and approved by the responsible licensed adviser before use with any client. Consilium Systems accepts no liability for outputs used without appropriate professional review.</p>
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">05</div>
+    <h2>Beta Access</h2>
+    <p>PracticeOS is currently in beta. During the beta period:</p>
+    <ul>
+      <li>Access may be provided on a complimentary basis to qualifying practices</li>
+      <li>Features, modules, and functionality may change without notice</li>
+      <li>The platform may experience downtime, errors, or interruptions</li>
+      <li>Structured feedback from beta users is expected in exchange for complimentary access</li>
+      <li>Beta access does not constitute a binding subscription agreement</li>
+    </ul>
+    <p>Consilium Systems reserves the right to modify, suspend, or terminate beta access at any time without prior notice.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">06</div>
+    <h2>Subscriptions and Pricing</h2>
+    <p>Paid subscription plans will be introduced following the beta period. Pricing, billing terms, and cancellation conditions will be communicated to users in advance of any transition from complimentary to paid access.</p>
+    <p>Early beta participants will be offered founding member pricing as a priority. No charges will be applied without explicit agreement and advance notice.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">07</div>
+    <h2>Acceptable Use</h2>
+    <p>You agree to use PracticeOS only for lawful purposes and in accordance with these Terms. You must not:</p>
+    <ul>
+      <li>Use the platform to generate content that is misleading, fraudulent, or non-compliant with AFSL obligations</li>
+      <li>Input sensitive personal information beyond what is necessary to generate required outputs</li>
+      <li>Attempt to reverse engineer, scrape, or extract the platform's underlying systems or AI models</li>
+      <li>Share account credentials with unauthorised third parties</li>
+      <li>Use the platform in a way that violates any applicable law or regulation</li>
+      <li>Attempt to circumvent security measures or access controls</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">08</div>
+    <h2>Intellectual Property</h2>
+    <p>All content, design, code, and structure of PracticeOS — including its AI modules, user interface, and documentation — is the intellectual property of Consilium Systems and is protected by applicable laws.</p>
+    <p>AI-generated outputs produced using your inputs are provided to you for your professional use. You retain responsibility for the final documents you produce. Consilium Systems does not claim ownership of client-specific outputs generated through your use of the platform.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">09</div>
+    <h2>Third-Party Services</h2>
+    <p>PracticeOS relies on the following third-party services to operate:</p>
+    <ul>
+      <li><strong style="color:var(--charcoal);">Anthropic Claude API</strong> — AI processing and output generation</li>
+      <li><strong style="color:var(--charcoal);">Supabase</strong> — database, authentication, and data storage</li>
+      <li><strong style="color:var(--charcoal);">Vercel</strong> — platform hosting and deployment</li>
+    </ul>
+    <p>Use of PracticeOS is subject to the terms and policies of these providers. Consilium Systems is not responsible for the availability, performance, or data practices of third-party services.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">10</div>
+    <h2>Limitation of Liability</h2>
+    <p>To the maximum extent permitted by law, Consilium Systems excludes all liability for any loss or damage — including indirect, consequential, or special loss — arising from:</p>
+    <ul>
+      <li>Your use of or reliance on AI-generated outputs without appropriate professional review</li>
+      <li>Platform downtime, errors, or interruptions during the beta period</li>
+      <li>Data loss or security incidents beyond our reasonable control</li>
+      <li>Actions taken by clients based on documents produced using PracticeOS</li>
+      <li>Changes to the platform, pricing, or availability</li>
+    </ul>
+    <p>Consilium Systems does not warrant that PracticeOS will be uninterrupted, error-free, or fit for any particular purpose beyond its stated function as an AI-assisted drafting and workflow tool.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">11</div>
+    <h2>Termination</h2>
+    <p>Consilium Systems reserves the right to suspend or terminate your access to PracticeOS at any time if you breach these Terms of Service or misuse the platform. You may discontinue use of PracticeOS at any time.</p>
+    <p>Upon termination, your right to access the platform ceases immediately. Data retention following termination is governed by our Privacy Policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">12</div>
+    <h2>Changes to These Terms</h2>
+    <p>Consilium Systems reserves the right to update these Terms of Service at any time. The most recent version will always be available at <a href="https://practiceos.consiliumsystems.com.au/terms">practiceos.consiliumsystems.com.au/terms</a>. Continued use of PracticeOS following any update constitutes your acceptance of the revised terms.</p>
+  </div>
+
+  <div class="policy-section">
+    <div class="policy-section-num">13</div>
+    <h2>Governing Law</h2>
+    <p>These Terms of Service are governed by the laws of New South Wales, Australia. Any disputes arising in connection with these terms shall be subject to the exclusive jurisdiction of the courts of New South Wales.</p>
+  </div>
+
+  <div class="contact-box">
+    <h3>Questions about these terms?</h3>
+    <p>If you have any questions about these Terms of Service, please contact us directly. We aim to respond within one business day.<br><br>
+    <strong style="color:rgba(255,255,255,.8);">Consilium Systems</strong><br>
+    <span style="color:rgba(255,255,255,.5);">Sydney, New South Wales, Australia</span><br>
+    <a href="mailto:info@consiliumsystems.com.au" style="color:var(--gold);">info@consiliumsystems.com.au</a>
+    </p>
+    <a href="mailto:info@consiliumsystems.com.au" class="btn">Contact Us →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-bottom">
+    <div class="footer-brand">PracticeOS · <span>Consilium Systems</span></div>
+    <div class="footer-legal">
+      © 2026 Consilium Systems · ABN 94 655 810 737 · Sydney, NSW ·
+      <a href="https://practiceos.consiliumsystems.com.au/terms">Terms of Service</a> ·
+      <a href="https://practiceos.consiliumsystems.com.au/privacy">Privacy Policy</a> ·
+      <a href="https://www.consiliumsystems.com.au">Consilium Systems</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
