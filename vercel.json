@@ -1,7 +1,7 @@
 {
   "routes": [
-    { "src": "/terms", "dest": "/practiceos/terms.html" },
-    { "src": "/privacy", "dest": "/practiceos/privacy.html" },
+    { "src": "/terms", "dest": "/terms.html" },
+    { "src": "/privacy", "dest": "/privacy.html" },
     { "src": "/(.*)", "dest": "/practiceos/index.html" }
   ]
 }
