@@ -1,7 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/terms", "destination": "/practiceos/terms.html" },
-    { "source": "/privacy", "destination": "/practiceos/privacy.html" },
-    { "source": "/(.*)", "destination": "/practiceos/index.html" }
+  "routes": [
+    { "src": "/terms", "dest": "/practiceos/terms.html" },
+    { "src": "/privacy", "dest": "/practiceos/privacy.html" },
+    { "src": "/(.*)", "dest": "/practiceos/index.html" }
   ]
 }
